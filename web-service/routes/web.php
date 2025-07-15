@@ -57,4 +57,10 @@ Route::middleware('auth')->group(function () {
 
     // Rute khusus untuk update password
     Route::patch('/pengaturan/password', [ProfileController::class, 'updatePassword'])->name('pengaturan.password.update');
+    
+    // RUTE BARU: Untuk meng-upload foto profil baru
+    Route::post('/pengaturan/photo', [ProfileController::class, 'updatePhoto'])->name('pengaturan.photo.update');
+
+    // RUTE BARU: Untuk menghapus foto profil yang ada
+    Route::delete('/pengaturan/photo', [ProfileController::class, 'destroyPhoto'])->name('pengaturan.photo.destroy');
 });

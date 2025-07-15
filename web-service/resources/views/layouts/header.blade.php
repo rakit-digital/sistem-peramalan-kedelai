@@ -173,14 +173,14 @@
                                 class="hs-dropdown [--strategy:absolute] [--adaptive:none] sm:[--trigger:hover] sm:relative group/menu">
                                 <a id="hs-dropdown-hover-event-profile"
                                     class="relative hs-dropdown-toggle h-10 w-10 cursor-pointer hover:bg-lightprimary flex justify-center items-center rounded-full overflow-hidden group-hover/menu:ring-2 group-hover/menu:ring-primary">
-                                    <img src="{{ asset('assets/images/profile/user-1.jpg') }}" class="w-full h-full object-cover" alt="Profile">
+                                    <img src="{{ $user->photo ? asset('storage/' . $user->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&color=7F9CF5&background=EBF4FF' }}" class="w-full h-full object-cover" alt="Profile">
                                 </a>
                                 <div class="card hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 right-0 rtl:right-auto rtl:left-0 mt-2 min-w-max top-auto w-full sm:w-[280px] hidden z-[2]"
                                     aria-labelledby="hs-dropdown-hover-event-profile">
                                     <div class="px-7 py-4 border-b border-gray-200">
                                         <div class="flex items-center justify-between">
                                             <div class="flex items-center">
-                                                <img src="{{ asset('assets/images/profile/user-1.jpg') }}" class="h-14 w-14 rounded-full mr-3" alt="User">
+                                                <img src="{{ $user->photo ? asset('storage/' . $user->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&color=7F9CF5&background=EBF4FF' }}" class="h-14 w-14 rounded-full mr-3" alt="User">
                                                 <div class="ml-2">
                                                     <h5 class="text-base font-medium text-bodytext mb-1">{{ Auth::user()->name }}</h5>
                                                     <p class="text-xs text-gray-500">{{ Auth::user()->role }}</p>
