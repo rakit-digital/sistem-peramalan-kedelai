@@ -182,28 +182,25 @@
                                             <div class="flex items-center">
                                                 <img src="{{ asset('assets/images/profile/user-1.jpg') }}" class="h-14 w-14 rounded-full mr-3" alt="User">
                                                 <div class="ml-2">
-                                                    <h5
-                                                        class="text-base font-medium text-bodytext mb-1">
-                                                        abc</h5>
-                                                    <p class="text-xs text-gray-500">
-                                                        role</p>
+                                                    <h5 class="text-base font-medium text-bodytext mb-1">{{ Auth::user()->name }}</h5>
+                                                    <p class="text-xs text-gray-500">{{ Auth::user()->role }}</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="py-2">
-                                        <a href="#"
+                                        <a href="{{ route('pengaturan') }}"
                                             class="dropdown-menu-link py-2 px-5 hover:bg-lightprimary hover:dark:bg-darkprimary flex items-center gap-2">
                                             <i class="ti ti-settings text-lg"></i>
-                                            <span>{{ __('app.account_settings') }}</span>
+                                            <span>Pengaturan Akun</span>
                                         </a>
                                         <hr class="my-2 border-gray-200">
-                                        <form action="" method="POST">
+                                        <form action="{{ route('logout') }}" method="POST">
                                             @csrf
                                             <button type="submit"
                                                 class="dropdown-menu-link py-2 px-5 hover:bg-lightprimary hover:dark:bg-darkprimary w-full text-left flex items-center gap-2 text-error">
                                                 <i class="ti ti-logout text-lg"></i>
-                                                <span></span>
+                                                <span>Logout</span>
                                             </button>
                                         </form>
                                     </div>
