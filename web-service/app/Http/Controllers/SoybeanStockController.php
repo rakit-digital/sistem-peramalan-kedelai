@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon; // <-- Pastikan Carbon di-import
+use Illuminate\Support\Facades\Auth;
 
 class SoybeanStockController extends Controller
 {
@@ -67,7 +68,7 @@ class SoybeanStockController extends Controller
             $closingStock = $openingStock + $request->purchase_kg - $request->usage_kg;
 
             SoybeanStock::create([
-                'user_id' => auth()->id(),
+                'user_id' => Auth::id(),
                 'date' => $request->date,
                 'purchase_kg' => $request->purchase_kg,
                 'usage_kg' => $request->usage_kg,
@@ -132,7 +133,7 @@ class SoybeanStockController extends Controller
      */
     public function destroy(SoybeanStock $data_kedelai)
     {
-        if (auth()->user()->role !== 'admin') {
+        if (Auth::user()->role !== 'admin') {
             return redirect()->route('data.kedelai.index')->with('error', 'Anda tidak memiliki hak akses untuk menghapus data.');
         }
 
