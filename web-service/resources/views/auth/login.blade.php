@@ -1,4 +1,3 @@
-{{-- Gunakan layout 'guest' yang baru kita buat --}}
 @extends('layouts.guest')
 
 {{-- Mulai section 'content' untuk mengisi @yield di layout --}}

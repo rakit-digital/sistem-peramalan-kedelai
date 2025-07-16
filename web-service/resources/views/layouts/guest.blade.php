@@ -20,7 +20,7 @@
     <title>Login | {{ config('app.name', 'Peramalan Kedelai') }}</title>
 </head>
 
-<body class="bg-white dark:bg-dark">	
+<body class="DEFAULT_THEME bg-white dark:bg-dark">	
     <main>
         <div id="main-wrapper" class="flex">
             <!-- Main Content -->
@@ -29,7 +29,6 @@
                     <div class="flex justify-center w-full">
                         <div class="xl:w-2/6 lg:w-2/5 md:w-1/2 sm:w-3/4 w-11/12">
                             <div class="max-w-[500px] px-5 mx-auto">
-                                {{-- Konten utama dari halaman login akan disisipkan di sini --}}
                                 @yield('content')
                             </div>
                         </div>
