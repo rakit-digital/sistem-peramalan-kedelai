@@ -14,6 +14,7 @@ use App\Http\Controllers\Auth\LoginController;
 |--------------------------------------------------------------------------
 */
 
+Route::view('/', 'pages.landing.index')->name('landing.page');
 // --- RUTE UNTUK AUTENTIKASI ---
 // Rute untuk pengguna yang belum login (Guest)
 Route::middleware('guest')->group(function () {
@@ -24,43 +25,25 @@ Route::middleware('guest')->group(function () {
 // Rute untuk logout (harus sudah login)
 Route::post('logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
-
-// --- RUTE UTAMA APLIKASI ---
-// Rute Halaman Utama, akan diarahkan ke login atau dashboard
-Route::get('/', function () {
-    return redirect()->route('dashboard');
-});
-
-// Grup untuk semua halaman yang memerlukan autentikasi (setelah login)
 Route::middleware('auth')->group(function () {
 
-    // Dashboard (dari sidebar: route('dashboard'))
+    // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Data Kedelai (dari sidebar: route('data.kedelai'))
-    // Perhatikan: request()->routeIs('data.kedelai') akan false.
-    // Kita harus menggunakan wildcard: request()->routeIs('data.kedelai.*')
+    // Data Kedelai
     Route::resource('data-kedelai', SoybeanStockController::class)->names('data.kedelai');
 
-    // Peramalan (dari sidebar: route('peramalan'))
+    // Peramalan
     Route::get('/peramalan', [ForecastController::class, 'index'])->name('peramalan');
     Route::post('/peramalan/generate', [ForecastController::class, 'generate'])->name('peramalan.generate');
 
-    // Laporan (dari sidebar: route('laporan'))
+    // Laporan
     Route::get('/laporan', [ReportController::class, 'index'])->name('laporan');
 
-    // Pengaturan Akun (dari sidebar: route('pengaturan'))
+    // Pengaturan Akun
     Route::get('/pengaturan', [ProfileController::class, 'edit'])->name('pengaturan');
-
-    // Rute khusus untuk update informasi profil (nama, email, dll)
     Route::patch('/pengaturan/profile', [ProfileController::class, 'updateProfile'])->name('pengaturan.profile.update');
-
-    // Rute khusus untuk update password
     Route::patch('/pengaturan/password', [ProfileController::class, 'updatePassword'])->name('pengaturan.password.update');
-    
-    // RUTE BARU: Untuk meng-upload foto profil baru
     Route::post('/pengaturan/photo', [ProfileController::class, 'updatePhoto'])->name('pengaturan.photo.update');
-
-    // RUTE BARU: Untuk menghapus foto profil yang ada
     Route::delete('/pengaturan/photo', [ProfileController::class, 'destroyPhoto'])->name('pengaturan.photo.destroy');
 });
