@@ -31,8 +31,7 @@
                 </div>
                 <div class="md:col-span-6 col-span-12 xl:block hidden">
                     <div class="p-4 rounded overflow-hidden">
-                        {{-- Ganti dengan foto pabrik/tahu yang menarik --}}
-                        <img src="{{ asset('assets/images/backgrounds/tahu-hero.jpeg') }}" alt="Produk Tahu Melati"
+                        <img src="{{ asset('assets/images/backgrounds/tahu-kedelai.jpg') }}" alt="Produk Tahu Melati"
                             class="rounded-lg shadow-xl" />
                     </div>
                 </div>
