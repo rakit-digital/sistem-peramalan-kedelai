@@ -1,0 +1,3840 @@
+README.md
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
+
+## About Laravel
+
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
+
+## Learning Laravel
+
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+
+You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+
+## Laravel Sponsors
+
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+
+### Premium Partners
+
+- **[Vehikl](https://vehikl.com/)**
+- **[Tighten Co.](https://tighten.co)**
+- **[WebReinvent](https://webreinvent.com/)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
+- **[Cyber-Duck](https://cyber-duck.co.uk)**
+- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
+- **[Jump24](https://jump24.co.uk)**
+- **[Redberry](https://redberry.international/laravel/)**
+- **[Active Logic](https://activelogic.com)**
+- **[byte5](https://byte5.de)**
+- **[OP.GG](https://op.gg)**
+
+## Contributing
+
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+
+## Code of Conduct
+
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+
+## Security Vulnerabilities
+
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+
+## License
+
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+phpunit.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+>
+    <testsuites>
+        <testsuite name="Unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory>tests/Feature</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory>app</directory>
+        </include>
+    </source>
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="APP_MAINTENANCE_DRIVER" value="file"/>
+        <env name="BCRYPT_ROUNDS" value="4"/>
+        <env name="CACHE_STORE" value="array"/>
+        <!-- <env name="DB_CONNECTION" value="sqlite"/> -->
+        <!-- <env name="DB_DATABASE" value=":memory:"/> -->
+        <env name="MAIL_MAILER" value="array"/>
+        <env name="PULSE_ENABLED" value="false"/>
+        <env name="QUEUE_CONNECTION" value="sync"/>
+        <env name="SESSION_DRIVER" value="array"/>
+        <env name="TELESCOPE_ENABLED" value="false"/>
+    </php>
+</phpunit>
+
+app/Providers/RouteServiceProvider.php
+<?php
+
+namespace App\Providers;
+
+use Illuminate\Support\ServiceProvider;
+
+class RouteServiceProvider extends ServiceProvider
+{
+
+    /**
+     * The path to your application's "home" route.
+     *
+     * Typically, users are redirected here after authentication.
+     *
+     * @var string
+     */
+    public const HOME = '/dashboard';
+    
+    /**
+     * Register services.
+     */
+    public function register(): void
+    {
+        //
+    }
+
+    /**
+     * Bootstrap services.
+     */
+    public function boot(): void
+    {
+        //
+    }
+}
+
+app/Providers/AppServiceProvider.php
+<?php
+
+namespace App\Providers;
+
+use Illuminate\Support\ServiceProvider;
+
+class AppServiceProvider extends ServiceProvider
+{
+    /**
+     * Register any application services.
+     */
+    public function register(): void
+    {
+        //
+    }
+
+    /**
+     * Bootstrap any application services.
+     */
+    public function boot(): void
+    {
+        //
+    }
+}
+
+app/Models/Forecast.php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Forecast extends Model
+{
+    use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'forecast_date',
+        'predicted_usage_kg',
+        'generated_at',
+        'source',
+    ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'forecast_date' => 'date',
+            'predicted_usage_kg' => 'decimal:2',
+            'generated_at' => 'datetime',
+        ];
+    }
+}
+app/Models/User.php
+<?php
+
+namespace App\Models;
+
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+
+class User extends Authenticatable
+{
+    /** @use HasFactory<\Database\Factories\UserFactory> */
+    use HasFactory, Notifiable;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'phone_number',
+        'photo',
+        'role',
+    ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var list<string>
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
+
+    public function soybeanStocks(): HasMany
+    {
+        return $this->hasMany(SoybeanStock::class);
+    }
+}
+
+app/Models/SoybeanStock.php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class SoybeanStock extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'date',
+        'purchase_kg',
+        'usage_kg',
+        'closing_stock_kg',
+        'notes',
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'date' => 'date',
+            'purchase_kg' => 'decimal:2',
+            'usage_kg' => 'decimal:2',
+            'closing_stock_kg' => 'decimal:2',
+        ];
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+}
+
+app/Http/Controllers/SoybeanStockController.php
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\SoybeanStock;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon; // <-- Pastikan Carbon di-import
+use Illuminate\Support\Facades\Auth;
+
+class SoybeanStockController extends Controller
+{
+    /**
+     * Menampilkan daftar semua data stok.
+     * Halaman: index.blade.php
+     */
+    public function index()
+    {
+        // Ambil data dari yang terbaru dengan paginasi
+        $stocks = SoybeanStock::with('user')->latest('date')->paginate(15);
+        
+        // Kalkulasi stok awal untuk setiap baris di tabel agar lebih akurat, terutama di halaman > 1
+        $stocks->getCollection()->transform(function ($stock, $key) use ($stocks) {
+            $previousStockOnPage = $stocks->get($key + 1);
+
+            if ($previousStockOnPage) {
+                // Jika ada data sebelumnya di halaman ini, gunakan stok akhirnya
+                $stock->opening_stock = $previousStockOnPage->closing_stock_kg;
+            } else {
+                // Jika ini item pertama di halaman, cari di database
+                $previousStockInDB = SoybeanStock::where('date', '<', $stock->date)->orderBy('date', 'desc')->first();
+                $stock->opening_stock = $previousStockInDB ? $previousStockInDB->closing_stock_kg : 0;
+            }
+            return $stock;
+        });
+
+        return view('pages.data-kedelai.index', compact('stocks'));
+    }
+
+    /**
+     * Menampilkan form untuk membuat data baru.
+     * Halaman: create.blade.php
+     */
+    public function create()
+    {
+        $latestStock = SoybeanStock::latest('date')->first();
+        $openingStockForNewEntry = $latestStock ? $latestStock->closing_stock_kg : 0;
+
+        return view('pages.data-kedelai.create', compact('openingStockForNewEntry'));
+    }
+
+    /**
+     * Menyimpan data baru ke database.
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'date' => ['required', 'date', 'unique:soybean_stocks,date'],
+            'purchase_kg' => ['required', 'numeric', 'min:0'],
+            'usage_kg' => ['required', 'numeric', 'min:0'],
+            'notes' => ['nullable', 'string', 'max:1000'],
+        ]);
+
+        DB::transaction(function () use ($request) {
+            $previousDayStock = SoybeanStock::where('date', '<', $request->date)->orderBy('date', 'desc')->first();
+            $openingStock = $previousDayStock ? $previousDayStock->closing_stock_kg : 0;
+            $closingStock = $openingStock + $request->purchase_kg - $request->usage_kg;
+
+            SoybeanStock::create([
+                'user_id' => Auth::id(),
+                'date' => $request->date,
+                'purchase_kg' => $request->purchase_kg,
+                'usage_kg' => $request->usage_kg,
+                'closing_stock_kg' => $closingStock,
+                'notes' => $request->notes,
+            ]);
+
+            // Hitung ulang semua hari setelah tanggal baru ini
+            $this->recalculateStockFrom($request->date);
+        });
+
+        return redirect()->route('data.kedelai.index')->with('status', 'Data harian berhasil ditambahkan.');
+    }
+
+    /**
+     * Menampilkan form untuk mengedit data.
+     * Halaman: edit.blade.php
+     */
+    public function edit(SoybeanStock $data_kedelai) // Menggunakan Route Model Binding
+    {
+        $previousDayStock = SoybeanStock::where('date', '<', $data_kedelai->date)->orderBy('date', 'desc')->first();
+        $openingStock = $previousDayStock ? $previousDayStock->closing_stock_kg : 0;
+
+        return view('pages.data-kedelai.edit', [
+            'stock' => $data_kedelai,
+            'openingStock' => $openingStock,
+        ]);
+    }
+
+    /**
+     * Memperbarui data yang ada di database.
+     */
+    public function update(Request $request, SoybeanStock $data_kedelai)
+    {
+        $request->validate([
+            'date' => ['required', 'date', Rule::unique('soybean_stocks')->ignore($data_kedelai->id)],
+            'purchase_kg' => ['required', 'numeric', 'min:0'],
+            'usage_kg' => ['required', 'numeric', 'min:0'],
+            'notes' => ['nullable', 'string', 'max:1000'],
+        ]);
+
+        DB::transaction(function () use ($request, $data_kedelai) {
+            $originalDate = $data_kedelai->date;
+
+            $data_kedelai->update([
+                'date' => $request->date, // Mengizinkan update tanggal
+                'purchase_kg' => $request->purchase_kg,
+                'usage_kg' => $request->usage_kg,
+                'notes' => $request->notes,
+            ]);
+
+            // Tentukan tanggal mana yang menjadi awal perhitungan ulang
+            $recalculationStartDate = min($originalDate, $request->date);
+            $this->recalculateStockFrom(Carbon::parse($recalculationStartDate)->subDay()->toDateString());
+        });
+
+        return redirect()->route('data.kedelai.index')->with('status', 'Data berhasil diperbarui.');
+    }
+
+    /**
+     * Menghapus data dari database.
+     */
+    public function destroy(SoybeanStock $data_kedelai)
+    {
+        if (Auth::user()->role !== 'admin') {
+            return redirect()->route('data.kedelai.index')->with('error', 'Anda tidak memiliki hak akses untuk menghapus data.');
+        }
+
+        DB::transaction(function () use ($data_kedelai) {
+            $dateBefore = Carbon::parse($data_kedelai->date)->subDay()->toDateString();
+            $data_kedelai->delete();
+            // Hitung ulang semua stok setelah data yang dihapus
+            $this->recalculateStockFrom($dateBefore);
+        });
+
+        return redirect()->route('data.kedelai.index')->with('status', 'Data berhasil dihapus.');
+    }
+
+    /**
+     * Helper function untuk menghitung ulang stok.
+     */
+    protected function recalculateStockFrom($date)
+    {
+        $stocksToUpdate = SoybeanStock::where('date', '>', $date)->orderBy('date', 'asc')->get();
+        $previousDayStock = SoybeanStock::where('date', '<=', $date)->orderBy('date', 'desc')->first();
+        $currentStock = $previousDayStock ? $previousDayStock->closing_stock_kg : 0;
+        
+        foreach ($stocksToUpdate as $stock) {
+            $closingStock = $currentStock + $stock->purchase_kg - $stock->usage_kg;
+            
+            // Hanya update jika nilainya berubah untuk efisiensi
+            if ($stock->closing_stock_kg != $closingStock) {
+                $stock->closing_stock_kg = $closingStock;
+                $stock->save(['timestamps' => false]);
+            }
+
+            $currentStock = $closingStock;
+        }
+    }
+}
+app/Http/Controllers/ProfileController.php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rules\Password;
+
+class ProfileController extends Controller
+{
+    /**
+     * Menampilkan halaman form untuk mengedit profil.
+     */
+    public function edit()
+    {
+        return view('pages.pengaturan', [
+            'user' => Auth::user(),
+        ]);
+    }
+
+    /**
+     * Memperbarui informasi profil pengguna (Nama & Email).
+     */
+    public function updateProfile(Request $request)
+    {
+        $user = $request->user();
+
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            // Tambahkan validasi untuk field lain jika ada (phone_number, gender, dll)
+        ]);
+
+        $user->fill($request->only(['name', 'email']));
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
+        }
+
+        $user->save();
+
+        return redirect()->route('pengaturan')->with('status', 'Informasi profil berhasil diperbarui!');
+    }
+
+    /**
+     * Memperbarui password pengguna.
+     */
+    public function updatePassword(Request $request)
+    {
+        $user = $request->user();
+
+        $validated = $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', 'confirmed', Password::defaults()],
+        ]);
+
+        $user->update([
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        return redirect()->route('pengaturan')->with('status', 'Kata sandi berhasil diperbarui!');
+    }
+
+    public function updatePhoto(Request $request)
+    {
+        $request->validate([
+            'photo' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // Validasi file: gambar, maks 2MB
+        ]);
+
+        $user = $request->user();
+
+        // Hapus foto lama jika ada, untuk menghemat space
+        if ($user->photo) {
+            Storage::disk('public')->delete($user->photo);
+        }
+
+        // Simpan foto baru di 'storage/app/public/photos' dan dapatkan path-nya
+        $path = $request->file('photo')->store('photos', 'public');
+
+        // Simpan path foto baru ke database
+        $user->update(['photo' => $path]);
+
+        return redirect()->route('pengaturan')->with('status', 'Foto profil berhasil diperbarui!');
+    }
+
+    /**
+     * Menghapus foto profil pengguna.
+     */
+    public function destroyPhoto(Request $request)
+    {
+        $user = $request->user();
+
+        if ($user->photo) {
+            // Hapus file dari storage
+            Storage::disk('public')->delete($user->photo);
+
+            // Hapus referensi dari database
+            $user->update(['photo' => null]);
+
+            return redirect()->route('pengaturan')->with('status', 'Foto profil berhasil dihapus.');
+        }
+
+        return redirect()->route('pengaturan');
+    }
+}
+
+app/Http/Controllers/ForecastController.php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Exception;
+
+class ForecastController extends Controller
+{
+    // Definisikan URL API Python di satu tempat agar mudah diubah
+    private const PYTHON_API_URL = 'http://127.0.0.1:5000/forecast';
+
+    /**
+     * Menampilkan halaman utama peramalan.
+     */
+    public function index()
+    {
+        return view('pages.peramalan');
+    }
+
+    /**
+     * Menerima permintaan AJAX untuk men-generate peramalan.
+     */
+    public function generate(Request $request)
+    {
+        // 1. Validasi input dari frontend
+        $validated = $request->validate([
+            'days' => 'required|integer|in:7,14,30' // Pastikan hanya nilai ini yang diterima
+        ]);
+
+        $daysToForecast = $validated['days'];
+
+        try {
+            // 2. Kirim request ke API Python menggunakan HTTP Client Laravel
+            // Tambahkan timeout untuk mencegah aplikasi Laravel menunggu terlalu lama
+            $response = Http::timeout(30)->get(self::PYTHON_API_URL, [
+                'days' => $daysToForecast,
+            ]);
+
+            // 3. Periksa apakah request ke API Python berhasil
+            if (!$response->successful()) {
+                // Jika API Python mengembalikan error (misal: status 500)
+                return response()->json([
+                    'error' => 'Gagal terhubung ke layanan peramalan. Status: ' . $response->status()
+                ], 502); // 502 Bad Gateway
+            }
+
+            // 4. Jika berhasil, kirimkan kembali data JSON dari Python ke frontend
+            return response()->json($response->json());
+
+        } catch (Exception $e) {
+            // 5. Tangani jika API Python tidak berjalan atau terjadi error koneksi
+            report($e); // Laporkan error ke log Laravel
+
+            return response()->json([
+                'error' => 'Tidak dapat terhubung ke layanan peramalan. Pastikan layanan sudah berjalan.'
+            ], 503); // 503 Service Unavailable
+        }
+    }
+}
+app/Http/Controllers/ReportController.php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\SoybeanStock;
+
+class ReportController extends Controller
+{
+    /**
+     * Menampilkan halaman filter dan hasil laporan.
+     */
+    public function index(Request $request)
+    {
+        $results = null;
+        $reportType = $request->input('report_type');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        // Jika ada input dari form filter, proses datanya
+        if ($reportType && $startDate && $endDate) {
+            
+            // Bangun query dasar
+            $query = SoybeanStock::whereBetween('date', [$startDate, $endDate])->orderBy('date', 'asc');
+
+            // Sesuaikan query berdasarkan jenis laporan
+            switch ($reportType) {
+                case 'usage':
+                    $results = $query->get(['date', 'usage_kg']);
+                    break;
+                case 'stock':
+                    $results = $query->get(['date', 'closing_stock_kg']);
+                    break;
+                case 'purchase':
+                    $results = $query->where('purchase_kg', '>', 0)->get(['date', 'purchase_kg']);
+                    break;
+            }
+        }
+
+        // Kirim data ke view
+        // 'request' dikirim agar nilai filter sebelumnya tetap ada di form
+        return view('pages.laporan', [
+            'results' => $results,
+            'reportType' => $reportType,
+            'request' => $request,
+        ]);
+    }
+}
+app/Http/Controllers/Auth/LoginController.php
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class LoginController extends Controller
+{
+    /**
+     * Menampilkan form login.
+     */
+    public function showLoginForm()
+    {
+        return view('auth.login'); // Pastikan Anda membuat view ini
+    }
+
+    /**
+     * Memproses permintaan login.
+     */
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+            $request->session()->regenerate();
+
+            return redirect()->intended('dashboard');
+        }
+
+        return back()->withErrors([
+            'email' => 'Email atau password yang Anda masukkan salah.',
+        ])->onlyInput('email');
+    }
+
+    /**
+     * Memproses permintaan logout.
+     */
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
+}
+app/Http/Controllers/DashboardController.php
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\SoybeanStock;
+use App\Models\Forecast;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+
+class DashboardController extends Controller
+{
+    public function index()
+    {
+        // Card 1: Stok Kedelai Saat Ini
+        $latestStock = SoybeanStock::latest('date')->first();
+        $currentStock = $latestStock ? $latestStock->closing_stock_kg : 0;
+
+        // Card 2: Prediksi Kebutuhan Besok
+        $tomorrowPrediction = Forecast::where('forecast_date', today()->addDay())->first();
+        $predictedUsageTomorrow = $tomorrowPrediction ? $tomorrowPrediction->predicted_usage_kg : 0;
+        
+        // Card 3: Rata-rata Penggunaan 30 Hari Terakhir
+        $avgUsage = SoybeanStock::where('date', '>=', now()->subDays(30))->avg('usage_kg');
+
+        // Data untuk Grafik Tren (7 hari terakhir)
+        $chartData = $this->prepareChartData();
+
+        return view('pages.dashboard', [
+            'currentStock' => $currentStock,
+            'predictedUsageTomorrow' => $predictedUsageTomorrow,
+            'avgUsage' => $avgUsage,
+            'chartData' => $chartData
+        ]);
+    }
+
+    private function prepareChartData()
+    {
+        $labels = [];
+        $actualData = [];
+        $predictedData = [];
+        
+        for ($i = 6; $i >= 0; $i--) {
+            $date = today()->subDays($i);
+            $labels[] = $date->isoFormat('dddd'); // Format nama hari (misal: Senin)
+
+            // Ambil data penggunaan aktual
+            $actual = SoybeanStock::whereDate('date', $date)->value('usage_kg');
+            $actualData[] = $actual ?? 0;
+            
+            // Ambil data peramalan untuk hari yang sama
+            // Kita asumsikan peramalan sudah ada di DB.
+            // Jika tidak, kita bisa mengambil dari data historis
+            $predicted = Forecast::whereDate('forecast_date', $date)->value('predicted_usage_kg');
+            // Jika tidak ada data ramalan, kita bisa gunakan data aktual sebagai placeholder
+            $predictedData[] = $predicted ?? $actual ?? 0;
+        }
+
+        return [
+            'labels' => $labels,
+            'actual' => $actualData,
+            'predicted' => $predictedData,
+        ];
+    }
+}
+app/Http/Controllers/Controller.php
+<?php
+
+namespace App\Http\Controllers;
+
+abstract class Controller
+{
+    //
+}
+
+app/View/Components/GuestLayout.php
+<?php
+
+namespace App\View\Components;
+
+use Illuminate\View\Component;
+use Illuminate\View\View;
+
+class GuestLayout extends Component
+{
+    /**
+     * Get the view / contents that represents the component.
+     */
+    public function render(): View
+    {
+        return view('layouts.guest');
+    }
+}
+
+app/View/Components/AppLayout.php
+<?php
+
+namespace App\View\Components;
+
+use Illuminate\View\Component;
+use Illuminate\View\View;
+
+class AppLayout extends Component
+{
+    /**
+     * Get the view / contents that represents the component.
+     */
+    public function render(): View
+    {
+        return view('layouts.app');
+    }
+}
+
+.env
+APP_NAME=Laravel
+APP_ENV=local
+APP_KEY=base64:JEY95SWSoUmFWXpJ7ptSCL2ld30cBYi5qzF8PTm5MkE=
+APP_DEBUG=true
+APP_TIMEZONE=UTC
+APP_URL=http://localhost
+
+APP_LOCALE=en
+APP_FALLBACK_LOCALE=en
+APP_FAKER_LOCALE=en_US
+
+APP_MAINTENANCE_DRIVER=file
+# APP_MAINTENANCE_STORE=database
+
+PHP_CLI_SERVER_WORKERS=4
+
+BCRYPT_ROUNDS=12
+
+LOG_CHANNEL=stack
+LOG_STACK=single
+LOG_DEPRECATIONS_CHANNEL=null
+LOG_LEVEL=debug
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=rd011-peramalan-kedelai
+DB_USERNAME=root
+DB_PASSWORD=
+
+SESSION_DRIVER=database
+SESSION_LIFETIME=120
+SESSION_ENCRYPT=false
+SESSION_PATH=/
+SESSION_DOMAIN=null
+
+BROADCAST_CONNECTION=log
+FILESYSTEM_DISK=local
+QUEUE_CONNECTION=database
+
+CACHE_STORE=database
+CACHE_PREFIX=
+
+MEMCACHED_HOST=127.0.0.1
+
+REDIS_CLIENT=phpredis
+REDIS_HOST=127.0.0.1
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+
+MAIL_MAILER=log
+MAIL_SCHEME=null
+MAIL_HOST=127.0.0.1
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_FROM_ADDRESS="hello@example.com"
+MAIL_FROM_NAME="${APP_NAME}"
+
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_DEFAULT_REGION=us-east-1
+AWS_BUCKET=
+AWS_USE_PATH_STYLE_ENDPOINT=false
+
+VITE_APP_NAME="${APP_NAME}"
+
+.gitattributes
+* text=auto eol=lf
+
+*.blade.php diff=html
+*.css diff=css
+*.html diff=html
+*.md diff=markdown
+*.php diff=php
+
+/.github export-ignore
+CHANGELOG.md export-ignore
+.styleci.yml export-ignore
+
+resources/css/app.css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+resources/views/layouts/app.blade.php
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-color-theme="Soybean_Harvest_Theme" class="light selected" data-layout="vertical"
+    data-boxed-layout="boxed" data-card="shadow">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Favicon icon-->
+    <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/images/logos/favicon.ico')}}" />
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+    <!-- Core Css -->
+    <link rel="stylesheet" href="{{asset('assets/css/theme.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}" />
+    <title>Peramalan Kedelai</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js']) 
+
+    @stack('css')
+</head>
+
+<body class="DEFAULT_THEME bg-white dark:bg-dark">
+    <main>
+        <!--start the project-->
+        <div id="main-wrapper" class="flex">
+            @include('layouts.sidebar')
+            <div class="page-wrapper w-full" role="main">
+                <!--  Header Start -->
+                @include('layouts.header')
+                <!--  Header End -->
+
+                <!-- Main Content -->
+                <div class="max-w-full pt-6">
+                    <div class="container full-container py-5">
+                        @yield('content')
+                    </div>
+                </div>
+                <!-- Main Content End -->
+            </div>
+        </div>
+        <!--end of project-->
+
+    </main>
+
+    <div id="hs-focus-management-modal"
+        class="hs-overlay hs-overlay-open:opacity-100 hs-overlay-open:duration-500 hidden w-full h-full fixed top-0 start-0 z-[60] opacity-0 overflow-x-hidden transition-all overflow-y-auto pointer-events-none">
+        <div
+            class="hs-overlay-open:opacity-100 hs-overlay-open:duration-500 opacity-0 transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
+            <div
+                class="flex flex-col bg-white dark:bg-dark  shadow-md dark:shadow-dark-md rounded-md pointer-events-auto">
+                <div class="p-4 overflow-y-auto">
+                    <input type="email" class="w-full form-control" placeholder="you@site.com" autofocus>
+                </div>
+                <div class="items-center gap-x-2 py-3 px-4 border-t border-border dark:border-darkborder">
+
+                    <div class="overflow-hidden">
+                        <h5 class="text-lg  mb-4 px-4">Quick Page Links</h5>
+                        <div class="message-body max-h-[300px]" data-simplebar="">
+                            <ul>
+                                <li class="light-dark-hoverbg rounded-md  mb-2 px-4 py-2">
+                                    <a href="#" class="font-semibold text-sm text-link dark:text-darklink ">
+                                        Modern
+                                        <p class="text-sm text-link dark:text-darklink opacity-50 font-normal">
+                                            /dashboards/modern</p>
+                                    </a>
+                                </li>
+                                <li class="light-dark-hoverbg rounded-md  mb-2 px-4 py-2">
+                                    <a href="#" class="font-semibold text-sm text-link dark:text-darklink">
+                                        eCommerce
+                                        <p class="text-sm text-link dark:text-darklink opacity-50 font-normal">
+                                            /dashboards/ecommerce</p>
+                                    </a>
+                                </li>
+                                <li class="light-dark-hoverbg rounded-md  mb-2 px-4 py-2">
+                                    <a href="#" class="font-semibold text-sm text-link dark:text-darklink">
+                                        Contacts
+                                        <p class="text-sm text-link dark:text-darklink opacity-50 font-normal">
+                                            /apps/contacts</p>
+                                    </a>
+                                </li>
+                                <li class="light-dark-hoverbg rounded-md  mb-2 px-4 py-2">
+                                    <a href="#" class="font-semibold text-sm text-link dark:text-darklink">
+                                        Shop
+                                        <p class="text-sm text-link dark:text-darklink opacity-50 font-normal">
+                                            /ecommerce/products</p>
+                                    </a>
+                                </li>
+                                <li class="light-dark-hoverbg rounded-md  mb-2 px-4 py-2">
+                                    <a href="#" class="font-semibold text-sm text-link dark:text-darklink">
+                                        Checkout
+                                        <p class="text-sm text-link dark:text-darklink opacity-50 font-normal">
+                                            /ecommerce/checkout</p>
+                                    </a>
+                                </li>
+                                <li class="light-dark-hoverbg rounded-md  mb-2 px-4 py-2">
+                                    <a href="#" class="font-semibold text-sm text-link dark:text-darklink">
+                                        Chats
+                                        <p class="text-sm text-link dark:text-darklink opacity-50 font-normal">
+                                            /apps/chats</p>
+                                    </a>
+                                </li>
+                                <li class="light-dark-hoverbg rounded-md  mb-2 px-4 py-2">
+                                    <a href="#" class="font-semibold text-sm text-link dark:text-darklink">
+                                        Notes
+                                        <p class="text-sm text-link dark:text-darklink opacity-50 font-normal">
+                                            /apps/notes</p>
+                                    </a>
+                                </li>
+                                <li class="light-dark-hoverbg rounded-md  mb-2 px-4 py-2">
+                                    <a href="#" class="font-semibold text-sm text-link dark:text-darklink">
+                                        Pricing
+                                        <p class="text-sm text-link dark:text-darklink opacity-50 font-normal">
+                                            /pages/pricing</p>
+                                    </a>
+                                </li>
+                                <li class="light-dark-hoverbg rounded-md  mb-2 px-4 py-2">
+                                    <a href="#" class="font-semibold text-sm text-link dark:text-darklink">
+                                        Account Setting
+                                        <p class="text-sm text-link dark:text-darklink opacity-50 font-normal">
+                                            /pages/account-settings</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function handleColorTheme(e) {
+            document.documentElement.setAttribute("data-color-theme", e);
+        }
+    </script>
+    <script src="{{asset('assets/js/vendor.min.js')}}"></script>
+
+    <script src="{{asset('assets/js/theme/app.init.js')}}"></script>
+    <script src="{{asset('assets/js/theme/app.min.js')}}"></script>
+    <script src="{{asset('assets/js/theme.js')}}"></script>
+    <script src="{{asset('assets/libs/simplebar/dist/simplebar.min.js')}}"></script>
+    <script src="{{asset('assets/libs/preline/dist/preline.js')}}"></script>
+    <script src="{{asset('assets/libs/@preline/input-number/index.js')}}"></script>
+    <script src="{{asset('assets/libs/@preline/tooltip/index.js')}}"></script>
+    <script src="{{asset('assets/libs/@preline/stepper/index.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @stack('scripts')
+
+</body>
+
+</html>
+resources/views/layouts/sidebar.blade.php
+<aside id="application-sidebar-brand"
+    class="hs-overlay hs-overlay-open:translate-x-0 -translate-x-full xl:rtl:-translate-x-0 rtl:translate-x-full left-0 rtl:left-auto rtl:right-0 transform hidden xl:block xl:translate-x-0 xl:end-auto xl:bottom-0 fixed top-0 with-vertical left-sidebar transition-all duration-300 h-screen xl:z-[2] z-[60] flex-shrink-0 border-r rtl:border-l rtl:border-r-0 w-[270px] border-border bg-white">
+    <!-- Logo -->
+    <div class="py-5 px-5">
+        <div class="brand-logo">
+            <a href="{{ route('dashboard') }}" class="text-nowrap logo-img">
+                <img src="{{ asset('assets/images/logos/logo-pabrik.png') }}" class="block w-16" alt="Logo" />
+            </a>
+        </div>
+    </div>
+
+    <!-- Navigasi -->
+    <div class="overflow-hidden">
+        <div class="scroll-sidebar" data-simplebar="">
+            <div class="px-6 mt-8 mini-layout" data-te-sidenav-menu-ref>
+                <nav class="hs-accordion-group w-full flex flex-col">
+                    <ul data-te-sidenav-menu-ref id="sidebarnav">
+
+                        <div class="caption">
+                            <i class="ti ti-dots nav-small-cap-icon"></i><span class="hide-menu">Home</span>
+                        </div>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link dark-sidebar-link {{ request()->routeIs('dashboard') ? 'activemenu' : '' }}" href="{{ route('dashboard') }}">
+                                <i class="ti ti-layout-dashboard text-xl"></i><span class="hide-menu">Dashboard</span>
+                            </a>
+                        </li>
+
+                        <div class="caption mt-8">
+                            <i class="ti ti-dots nav-small-cap-icon"></i><span class="hide-menu">Manajemen</span>
+                        </div>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link dark-sidebar-link {{ request()->routeIs('data.kedelai.*') ? 'activemenu' : '' }}" href="{{ route('data.kedelai.index') }}">
+                                <i class="ti ti-bowl text-xl"></i><span class="hide-menu">Data Kedelai</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link dark-sidebar-link {{ request()->routeIs('peramalan') ? 'activemenu' : '' }}" href="{{ route('peramalan') }}">
+                                <i class="ti ti-report-analytics text-xl"></i><span class="hide-menu">Peramalan Kedelai</span>
+                            </a>
+                        </li>
+
+                        <div class="caption mt-8">
+                            <i class="ti ti-dots nav-small-cap-icon"></i><span class="hide-menu">Laporan & Analisis</span>
+                        </div>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link dark-sidebar-link {{ request()->routeIs('laporan') ? 'activemenu' : '' }}" href="{{ route('laporan') }}">
+                                <i class="ti ti-file-report text-xl"></i><span class="hide-menu">Laporan</span>
+                            </a>
+                        </li>
+
+                        <div class="caption mt-8">
+                            <i class="ti ti-dots nav-small-cap-icon"></i><span class="hide-menu">Settings</span>
+                        </div>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link dark-sidebar-link {{ request()->routeIs('pengaturan') ? 'activemenu' : '' }}" href="{{ route('pengaturan') }}">
+                                <i class="ti ti-settings text-xl"></i><span class="hide-menu">Pengaturan Akun</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</aside>
+resources/views/layouts/guest.blade.php
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="ltr" data-color-theme="Soybean_Harvest_Theme" class="light selected">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Favicon icon-->
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/logos/favicon.ico') }}" />
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+    
+    <!-- Core Css (sesuaikan dengan path di proyek Anda) -->
+    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}" />
+
+    <title>Login | {{ config('app.name', 'Peramalan Kedelai') }}</title>
+</head>
+
+<body class="DEFAULT_THEME bg-white dark:bg-dark">	
+    <main>
+        <div id="main-wrapper" class="flex">
+            <!-- Main Content -->
+            <div class="h-screen w-full bg-lightsuccess dark:bg-darkinfo">
+                <div class="h-full w-full flex justify-center items-center">
+                    <div class="flex justify-center w-full">
+                        <div class="xl:w-2/6 lg:w-2/5 md:w-1/2 sm:w-3/4 w-11/12">
+                            <div class="max-w-[500px] px-5 mx-auto">
+                                @yield('content')
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Main Content End -->
+        </div>
+    </main>
+    
+    <!-- Scripts (sesuaikan dengan path di proyek Anda) -->
+    {{-- <script src="{{asset('assets/js/vendor.min.js')}}"></script>
+    <script src="{{asset('assets/js/theme/app.init.js')}}"></script> --}}
+</body>
+</html>
+resources/views/layouts/header.blade.php
+<header
+    class="sticky top-header top-0 inset-x-0 z-[1] flex flex-wrap md:justify-start md:flex-nowrap text-sm bg-white ">
+    <div class="with-vertical w-full py-3">
+        <div class="w-full mx-auto px-4 lg:py-1 py-3 lg:px-4" aria-label="Global">
+            <div class="relative md:flex md:items-center md:justify-between">
+                <div class="hs-collapse  grow md:block">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <div class="relative">
+                                <a class="xl:flex hidden text-xl icon-hover cursor-pointer text-link sidebartoggler h-10 w-10 hover:text-primary light-dark-hoverbg  justify-center items-center rounded-full"
+                                    id="headerCollapse" href="javascript:void(0)">
+                                    <i class="ti ti-menu-2 relative z-[1] "></i>
+                                </a>
+                                <!--Mobile Sidebar Toggle -->
+                                <div class="sticky top-0 inset-x-0 xl:hidden">
+                                    <div class="flex items-center">
+                                        <!-- Navigation Toggle -->
+                                        <a class="text-xl icon-hover cursor-pointer text-link sidebartoggler h-10 w-10 hover:text-primary light-dark-hoverbg flex justify-center items-center rounded-full"
+                                            data-hs-overlay="#application-sidebar-brand"
+                                            aria-controls="application-sidebar-brand" aria-label="Toggle navigation">
+                                            <i class="ti ti-menu-2 relative z-[1] "></i>
+                                        </a>
+                                        <!-- End Navigation Toggle -->
+                                    </div>
+                                </div>
+                                <!-- End Sidebar Toggle -->
+                            </div>
+
+                            <a class="hidden lg:flex relative hs-dropdown-toggle cursor-pointer text-xl hover:text-primary text-link h-10 w-10 light-dark-hoverbg  justify-center items-center rounded-full"
+                                data-hs-overlay="#hs-focus-management-modal">
+                                <i class="ti ti-search relative"></i>
+                            </a>
+
+                            <div class="lg:hidden">
+                                <button type="button"
+                                    class="p-2 inline-flex h-10 w-10 text-link hover:text-primary light-dark-hoverbg  justify-center items-center rounded-full"
+                                    data-hs-overlay="#navbar-offcanvas-example-menu"
+                                    aria-controls="navbar-offcanvas-example-menu" aria-label="Toggle navigation">
+                                    <i class="ti ti-apps text-xl"></i>
+                                </button>
+                            </div>
+
+                            <!-- Menu-->
+                            <div id="navbar-offcanvas-example"
+                                class="hs-overlay hs-overlay-open:translate-x-0 z-[2] -translate-x-full fixed top-0 start-0 transition-all duration-300 transform h-full max-w-xs bg-white  basis-full grow sm:order-1 lg:static lg:block lg:h-auto sm:max-w-none w-[270px] lg:border-r-transparent lg:transition-none lg:translate-x-0  lg:basis-auto hidden "
+                                tabindex="-1" data-hs-overlay-close-on-resize>
+                                <div class="lg:flex gap-2  items-center ">
+                                    <div class="flex lg:hidden lg:p-0 p-5">
+                                        <div class="brand-logo flex  items-center ">
+                                            <a href="../main/index.html" class="text-nowrap logo-img">
+                                                <img src=""
+                                                    class="block w-48" alt="Logo" />
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="icon-nav items-center gap-3 lg:gap-4 flex">
+                            <!-- Theme Toggle  -->
+                            <button type="button"
+                                class="hs-dark-mode-active:hidden icon-hover block hs-dark-mode group items-center font-medium hover:text-primary text-link h-10 w-10 light-dark-hoverbg  justify-center rounded-full"
+                                data-hs-theme-click-value="dark" id="dark-layout">
+                                <i
+                                    class="ti ti-moon text-xl  text-link relative  hover:text-primary"></i>
+                            </button>
+                            <button type="button"
+                                class="hs-dark-mode-active:block icon-hover hidden hs-dark-mode group  items-center  font-medium hover:text-primary text-link h-10 w-10 light-dark-hoverbg  justify-center rounded-full"
+                                data-hs-theme-click-value="light" id="light-layout">
+                                <i
+                                    class="ti ti-sun text-xl  text-link relative  hover:text-primary"></i>
+                            </button>
+
+                            <!-- Notifications DD -->
+
+                            {{-- <div
+                                class="hs-dropdown [--strategy:absolute] [--adaptive:none] sm:[--trigger:hover] sm:relative group/menu">
+                                <a id="hs-dropdown-hover-event-notification"
+                                    class="relative hs-dropdown-toggle h-10 w-10 text-link cursor-pointer hover:bg-lightprimary  hover:text-primary flex justify-center items-center rounded-full group-hover/menu:bg-lightprimary group-hover/menu:text-primary">
+                                    <i class="ti ti-bell-ringing text-xl relative z-[1]"></i>
+                                    <div
+                                        class="absolute inline-flex items-center justify-center  text-white text-[11px] font-medium  bg-primary p-[5px] rounded-full -top-[-5px] -right-[0px]">
+                                    </div>
+                                </a>
+                                <div class="card hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 right-0 rtl:right-auto rtl:left-0 mt-2 min-w-max top-auto w-full sm:w-[360px] hidden z-[2]"
+                                    aria-labelledby="hs-dropdown-hover-event-notification">
+                                    <div class="flex items-center py-4 px-7 justify-between">
+                                        <h3 class="mb-0 card-title">
+                                            {{ __('Notifikasi') }}</h3>
+                                        <span class="text-xs badge-md bg-primary text-white">5
+                                            {{ __('baru') }}</span>
+                                    </div>
+                                    <div class="message-body max-h-[350px]" data-simplebar="">
+                                        <a href="javascript:void(0)"
+                                            class="px-7 py-3 flex items-center light-dark-hoverbg">
+                                            <span
+                                                class="flex-shrink-0 h-12 w-12 rounded-full bg-lightprimary flex justify-center items-center">
+                                                <i class="ti ti-dashboard text-primary text-xl"></i>
+                                            </span>
+                                            <div class="ps-4">
+                                                <h5 class="text-sm">
+                                                    {{ __('Luncurkan Admin') }}
+                                                </h5>
+                                                <span>{{ __('Lihat admin baru saya!') }}</span>
+                                            </div>
+                                        </a>
+                                        <a href="javascript:void(0)"
+                                            class="px-7 py-3 flex items-center light-dark-hoverbg">
+                                            <span
+                                                class="flex-shrink-0 h-12 w-12 rounded-full bg-lighterror flex justify-center items-center">
+                                                <i class="ti ti-screen-share text-error text-xl"></i>
+                                            </span>
+                                            <div class="ps-4">
+                                                <h5 class="text-sm">
+                                                    {{ __('Rapat Hari Ini') }}
+                                                </h5>
+                                                <span>{{ __('Periksa jadwal Anda') }}</span>
+                                            </div>
+                                        </a>
+                                        <a href="javascript:void(0)"
+                                            class="px-7 py-3 flex items-center light-dark-hoverbg">
+                                            <span
+                                                class="flex-shrink-0 h-12 w-12 rounded-full bg-lightsuccess flex justify-center items-center">
+                                                <i class="ti ti-coin text-success text-xl"></i>
+                                            </span>
+                                            <div class="ps-4">
+                                                <h5 class="text-sm">
+                                                    {{ __('Pembayaran Baru diterima') }}
+                                                </h5>
+                                                <span>{{ __('Periksa penghasilan Anda') }}</span>
+                                            </div>
+                                        </a>
+                                        <a href="javascript:void(0)"
+                                            class="px-7 py-3 flex items-center light-dark-hoverbg">
+                                            <span
+                                                class="flex-shrink-0 h-12 w-12 rounded-full bg-lightwarning flex justify-center items-center">
+                                                <i class="ti ti-credit-card text-warning text-xl"></i>
+                                            </span>
+                                            <div class="ps-4">
+                                                <h5 class="text-sm">
+                                                    {{ __('Bayar Tagihan') }}
+                                                </h5>
+                                                <span>{{ __('Pengingat bahwa Anda harus membayar') }}</span>
+                                            </div>
+                                        </a>
+                                        <a href="javascript:void(0)"
+                                            class="px-7 py-3 flex items-center light-dark-hoverbg">
+                                            <span
+                                                class="flex-shrink-0 h-12 w-12 rounded-full bg-lightinfo flex justify-center items-center">
+                                                <i class="ti ti-calendar-month text-info text-xl font-thin"></i>
+                                            </span>
+                                            <div class="ps-4">
+                                                <h5 class="text-sm">
+                                                    {{ __('Pergi ke Acara') }}
+                                                </h5>
+                                                <span>{{ __('Pengingat untuk acara') }}</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="pt-3 pb-6 px-7">
+                                        <a href="#" class="btn btn-outline-primary block w-full">
+                                            {{ __('app.see_all') }} {{ __('Notifikasi') }}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div> --}}
+
+                            <!-- User Profile Dropdown -->
+                            <div
+                                class="hs-dropdown [--strategy:absolute] [--adaptive:none] sm:[--trigger:hover] sm:relative group/menu">
+                                <a id="hs-dropdown-hover-event-profile"
+                                    class="relative hs-dropdown-toggle h-10 w-10 cursor-pointer hover:bg-lightprimary flex justify-center items-center rounded-full overflow-hidden group-hover/menu:ring-2 group-hover/menu:ring-primary">
+                                    <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) . '&color=7F9CF5&background=EBF4FF' }}" class="w-full h-full object-cover" alt="Profile">
+                                </a>
+                                <div class="card hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 right-0 rtl:right-auto rtl:left-0 mt-2 min-w-max top-auto w-full sm:w-[280px] hidden z-[2]"
+                                    aria-labelledby="hs-dropdown-hover-event-profile">
+                                    <div class="px-7 py-4 border-b border-gray-200">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center">
+                                                <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) . '&color=7F9CF5&background=EBF4FF' }}" class="h-14 w-14 rounded-full mr-3" alt="User">
+                                                <div class="ml-2">
+                                                    <h5 class="text-base font-medium text-bodytext mb-1">{{ Auth::user()->name }}</h5>
+                                                    <p class="text-xs text-gray-500">{{ Auth::user()->role }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="py-2">
+                                        <a href="{{ route('pengaturan') }}"
+                                            class="dropdown-menu-link py-2 px-5 hover:bg-lightprimary hover:dark:bg-darkprimary flex items-center gap-2">
+                                            <i class="ti ti-settings text-lg"></i>
+                                            <span>Pengaturan Akun</span>
+                                        </a>
+                                        <hr class="my-2 border-gray-200">
+                                        <form action="{{ route('logout') }}" method="POST">
+                                            @csrf
+                                            <button type="submit"
+                                                class="dropdown-menu-link py-2 px-5 hover:bg-lightprimary hover:dark:bg-darkprimary w-full text-left flex items-center gap-2 text-error">
+                                                <i class="ti ti-logout text-lg"></i>
+                                                <span>Logout</span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</header>
+
+resources/views/auth/login.blade.php
+@extends('layouts.guest')
+
+{{-- Mulai section 'content' untuk mengisi @yield di layout --}}
+@section('content')
+<div class="card shadow-lg">
+    <div class="card-body p-6">
+        <div class="mx-auto text-center mb-6">
+            <div class="flex justify-center">
+                <div class="brand-logo flex items-center">
+                    <a href="/" class="text-nowrap logo-img">
+                        {{-- Sesuaikan dengan path logo proyek Anda --}}
+                        <img src="{{ asset('assets/images/logos/logo-pabrik.png') }}" class="block w-24" alt="Logo Aplikasi" />
+                    </a>
+                </div>
+            </div>
+            <h4 class="font-semibold text-xl text-dark mt-4 mb-1">
+                Selamat Datang Kembali
+            </h4>
+            <p class="text-gray-500 mb-4">Silakan masuk untuk melanjutkan</p>
+        </div>
+        
+        {{-- Tampilkan pesan error validasi jika ada --}}
+        @if ($errors->any())
+            <div class="bg-lighterror text-error px-4 py-3 rounded relative mb-4" role="alert">
+                <p class="font-bold">Oops! Terjadi kesalahan:</p>
+                <ul class="list-disc pl-5 mt-2">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="absolute top-0 bottom-0 right-0 px-4 py-3" onclick="this.parentElement.style.display='none'">
+                    <i class="ti ti-x"></i>
+                </button>
+            </div>
+        @endif
+        
+        {{-- Form login, action menunjuk ke route 'login' dengan method POST --}}
+        <form method="POST" action="{{ route('login') }}" class="space-y-4">
+            @csrf
+            <div class="form-group">
+                <label for="email" class="form-label block mb-2 font-medium text-dark">Alamat Email</label>
+                {{-- Gunakan old('email') untuk menjaga input jika validasi gagal --}}
+                <input type="email" name="email" id="email" class="form-control w-full @error('email') border-error @enderror" value="{{ old('email') }}" required autofocus />
+            </div>
+            
+            <div class="form-group">
+                <label for="password" class="form-label block mb-2 font-medium text-dark">Kata Sandi</label>
+                <input type="password" name="password" id="password" class="form-control w-full" required />
+            </div>
+            
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <input type="checkbox" name="remember" id="remember" 
+                        class="border-gray-200 rounded text-primary focus:ring-primary" />
+                    <label for="remember" class="ms-2 text-sm text-gray-600">Ingat Saya</label>
+                </div>
+                {{-- Anda bisa menambahkan link 'lupa password' di sini nanti --}}
+                {{-- <a href="#" class="text-sm font-medium text-primary hover:underline">Lupa Kata Sandi?</a> --}}
+            </div>
+            
+            <button type="submit" class="btn btn-primary w-full py-3">Masuk</button>
+            
+            {{-- Bagian untuk login via Google/Facebook bisa di-uncomment nanti jika diperlukan --}}
+            {{-- <div class="relative my-4"> ... </div> --}}
+            {{-- <div class="grid grid-cols-2 gap-4"> ... </div> --}}
+        </form>
+    </div>
+</div>
+
+{{-- Bagian untuk link registrasi bisa di-uncomment nanti jika diperlukan --}}
+{{-- <div class="text-center mt-5">
+    <p class="text-gray-600">
+        Belum punya akun? <a href="#" class="font-medium text-primary hover:underline">Daftar di sini</a>
+    </p>
+</div> --}}
+@endsection
+resources/views/dashboard.blade.php
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Dashboard') }}
+        </h2>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                    {{ __("You're logged in!") }}
+                </div>
+            </div>
+        </div>
+    </div>
+</x-app-layout>
+
+resources/views/components/modal.blade.php
+@props([
+    'name',
+    'show' => false,
+    'maxWidth' => '2xl'
+])
+
+@php
+$maxWidth = [
+    'sm' => 'sm:max-w-sm',
+    'md' => 'sm:max-w-md',
+    'lg' => 'sm:max-w-lg',
+    'xl' => 'sm:max-w-xl',
+    '2xl' => 'sm:max-w-2xl',
+][$maxWidth];
+@endphp
+
+<div
+    x-data="{
+        show: @js($show),
+        focusables() {
+            // All focusable element types...
+            let selector = 'a, button, input:not([type=\'hidden\']), textarea, select, details, [tabindex]:not([tabindex=\'-1\'])'
+            return [...$el.querySelectorAll(selector)]
+                // All non-disabled elements...
+                .filter(el => ! el.hasAttribute('disabled'))
+        },
+        firstFocusable() { return this.focusables()[0] },
+        lastFocusable() { return this.focusables().slice(-1)[0] },
+        nextFocusable() { return this.focusables()[this.nextFocusableIndex()] || this.firstFocusable() },
+        prevFocusable() { return this.focusables()[this.prevFocusableIndex()] || this.lastFocusable() },
+        nextFocusableIndex() { return (this.focusables().indexOf(document.activeElement) + 1) % (this.focusables().length + 1) },
+        prevFocusableIndex() { return Math.max(0, this.focusables().indexOf(document.activeElement)) -1 },
+    }"
+    x-init="$watch('show', value => {
+        if (value) {
+            document.body.classList.add('overflow-y-hidden');
+            {{ $attributes->has('focusable') ? 'setTimeout(() => firstFocusable().focus(), 100)' : '' }}
+        } else {
+            document.body.classList.remove('overflow-y-hidden');
+        }
+    })"
+    x-on:open-modal.window="$event.detail == '{{ $name }}' ? show = true : null"
+    x-on:close-modal.window="$event.detail == '{{ $name }}' ? show = false : null"
+    x-on:close.stop="show = false"
+    x-on:keydown.escape.window="show = false"
+    x-on:keydown.tab.prevent="$event.shiftKey || nextFocusable().focus()"
+    x-on:keydown.shift.tab.prevent="prevFocusable().focus()"
+    x-show="show"
+    class="fixed inset-0 overflow-y-auto px-4 py-6 sm:px-0 z-50"
+    style="display: {{ $show ? 'block' : 'none' }};"
+>
+    <div
+        x-show="show"
+        class="fixed inset-0 transform transition-all"
+        x-on:click="show = false"
+        x-transition:enter="ease-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="ease-in duration-200"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+    >
+        <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+    </div>
+
+    <div
+        x-show="show"
+        class="mb-6 bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full {{ $maxWidth }} sm:mx-auto"
+        x-transition:enter="ease-out duration-300"
+        x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+        x-transition:leave="ease-in duration-200"
+        x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+        x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+    >
+        {{ $slot }}
+    </div>
+</div>
+
+resources/views/components/dropdown.blade.php
+@props(['align' => 'right', 'width' => '48', 'contentClasses' => 'py-1 bg-white'])
+
+@php
+$alignmentClasses = match ($align) {
+    'left' => 'ltr:origin-top-left rtl:origin-top-right start-0',
+    'top' => 'origin-top',
+    default => 'ltr:origin-top-right rtl:origin-top-left end-0',
+};
+
+$width = match ($width) {
+    '48' => 'w-48',
+    default => $width,
+};
+@endphp
+
+<div class="relative" x-data="{ open: false }" @click.outside="open = false" @close.stop="open = false">
+    <div @click="open = ! open">
+        {{ $trigger }}
+    </div>
+
+    <div x-show="open"
+            x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0 scale-95"
+            x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="transition ease-in duration-75"
+            x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-95"
+            class="absolute z-50 mt-2 {{ $width }} rounded-md shadow-lg {{ $alignmentClasses }}"
+            style="display: none;"
+            @click="open = false">
+        <div class="rounded-md ring-1 ring-black ring-opacity-5 {{ $contentClasses }}">
+            {{ $content }}
+        </div>
+    </div>
+</div>
+
+resources/views/profile/edit.blade.php
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Profile') }}
+        </h2>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <div class="max-w-xl">
+                    @include('profile.partials.update-profile-information-form')
+                </div>
+            </div>
+
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <div class="max-w-xl">
+                    @include('profile.partials.update-password-form')
+                </div>
+            </div>
+
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <div class="max-w-xl">
+                    @include('profile.partials.delete-user-form')
+                </div>
+            </div>
+        </div>
+    </div>
+</x-app-layout>
+
+resources/views/profile/partials/update-profile-information-form.blade.php
+<section>
+    <header>
+        <h2 class="text-lg font-medium text-gray-900">
+            {{ __('Profile Information') }}
+        </h2>
+
+        <p class="mt-1 text-sm text-gray-600">
+            {{ __("Update your account's profile information and email address.") }}
+        </p>
+    </header>
+
+    <form id="send-verification" method="post" action="{{ route('verification.send') }}">
+        @csrf
+    </form>
+
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+        @csrf
+        @method('patch')
+
+        <div>
+            <x-input-label for="name" :value="__('Name')" />
+            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
+            <x-input-error class="mt-2" :messages="$errors->get('name')" />
+        </div>
+
+        <div>
+            <x-input-label for="email" :value="__('Email')" />
+            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
+            <x-input-error class="mt-2" :messages="$errors->get('email')" />
+
+            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
+                <div>
+                    <p class="text-sm mt-2 text-gray-800">
+                        {{ __('Your email address is unverified.') }}
+
+                        <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            {{ __('Click here to re-send the verification email.') }}
+                        </button>
+                    </p>
+
+                    @if (session('status') === 'verification-link-sent')
+                        <p class="mt-2 font-medium text-sm text-green-600">
+                            {{ __('A new verification link has been sent to your email address.') }}
+                        </p>
+                    @endif
+                </div>
+            @endif
+        </div>
+
+        <div class="flex items-center gap-4">
+            <x-primary-button>{{ __('Save') }}</x-primary-button>
+
+            @if (session('status') === 'profile-updated')
+                <p
+                    x-data="{ show: true }"
+                    x-show="show"
+                    x-transition
+                    x-init="setTimeout(() => show = false, 2000)"
+                    class="text-sm text-gray-600"
+                >{{ __('Saved.') }}</p>
+            @endif
+        </div>
+    </form>
+</section>
+
+resources/views/profile/partials/delete-user-form.blade.php
+<section class="space-y-6">
+    <header>
+        <h2 class="text-lg font-medium text-gray-900">
+            {{ __('Delete Account') }}
+        </h2>
+
+        <p class="mt-1 text-sm text-gray-600">
+            {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}
+        </p>
+    </header>
+
+    <x-danger-button
+        x-data=""
+        x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
+    >{{ __('Delete Account') }}</x-danger-button>
+
+    <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
+        <form method="post" action="{{ route('profile.destroy') }}" class="p-6">
+            @csrf
+            @method('delete')
+
+            <h2 class="text-lg font-medium text-gray-900">
+                {{ __('Are you sure you want to delete your account?') }}
+            </h2>
+
+            <p class="mt-1 text-sm text-gray-600">
+                {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
+            </p>
+
+            <div class="mt-6">
+                <x-input-label for="password" value="{{ __('Password') }}" class="sr-only" />
+
+                <x-text-input
+                    id="password"
+                    name="password"
+                    type="password"
+                    class="mt-1 block w-3/4"
+                    placeholder="{{ __('Password') }}"
+                />
+
+                <x-input-error :messages="$errors->userDeletion->get('password')" class="mt-2" />
+            </div>
+
+            <div class="mt-6 flex justify-end">
+                <x-secondary-button x-on:click="$dispatch('close')">
+                    {{ __('Cancel') }}
+                </x-secondary-button>
+
+                <x-danger-button class="ms-3">
+                    {{ __('Delete Account') }}
+                </x-danger-button>
+            </div>
+        </form>
+    </x-modal>
+</section>
+
+resources/views/profile/partials/update-password-form.blade.php
+<section>
+    <header>
+        <h2 class="text-lg font-medium text-gray-900">
+            {{ __('Update Password') }}
+        </h2>
+
+        <p class="mt-1 text-sm text-gray-600">
+            {{ __('Ensure your account is using a long, random password to stay secure.') }}
+        </p>
+    </header>
+
+    <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">
+        @csrf
+        @method('put')
+
+        <div>
+            <x-input-label for="update_password_current_password" :value="__('Current Password')" />
+            <x-text-input id="update_password_current_password" name="current_password" type="password" class="mt-1 block w-full" autocomplete="current-password" />
+            <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
+        </div>
+
+        <div>
+            <x-input-label for="update_password_password" :value="__('New Password')" />
+            <x-text-input id="update_password_password" name="password" type="password" class="mt-1 block w-full" autocomplete="new-password" />
+            <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2" />
+        </div>
+
+        <div>
+            <x-input-label for="update_password_password_confirmation" :value="__('Confirm Password')" />
+            <x-text-input id="update_password_password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full" autocomplete="new-password" />
+            <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
+        </div>
+
+        <div class="flex items-center gap-4">
+            <x-primary-button>{{ __('Save') }}</x-primary-button>
+
+            @if (session('status') === 'password-updated')
+                <p
+                    x-data="{ show: true }"
+                    x-show="show"
+                    x-transition
+                    x-init="setTimeout(() => show = false, 2000)"
+                    class="text-sm text-gray-600"
+                >{{ __('Saved.') }}</p>
+            @endif
+        </div>
+    </form>
+</section>
+
+resources/views/pages/pengaturan.blade.php
+@extends('layouts.app')
+
+@section('title', 'Pengaturan Akun')
+
+@section('content')
+    <!-- Header & Breadcrumb -->
+    <div class="card bg-lightprimary shadow-none position-relative overflow-hidden mb-6">
+        <div class="card-body md:py-3 py-5">
+            <div class="flex items-center grid grid-cols-12 gap-6">
+                <div class="col-span-12">
+                    <h4 class="font-semibold text-xl text-dark mb-3">
+                        Pengaturan Akun
+                    </h4>
+                    <ol class="flex items-center whitespace-nowrap" aria-label="Breadcrumb">
+                        <li class="inline-flex items-center">
+                            <a class="flex items-center text-sm text-gray-500 hover:text-primary focus:outline-none focus:text-primary" href="{{ route('dashboard') }}">
+                                Home
+                            </a>
+                            <i class="ti ti-slash text-sm mx-2"></i>
+                        </li>
+                        <li class="inline-flex items-center text-sm font-semibold text-dark truncate" aria-current="page">
+                            Pengaturan Akun
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Notifikasi Status/Error --}}
+    @if (session('status'))
+        <div class="bg-lightsuccess text-success px-4 py-3 rounded relative mb-4" role="alert">
+            <span class="block sm:inline">{{ session('status') }}</span>
+        </div>
+    @endif
+    
+    {{-- Menampilkan error validasi umum di bagian atas --}}
+    @if ($errors->any())
+        <div class="bg-lighterror text-error px-4 py-3 rounded relative mb-4" role="alert">
+            <p class="font-bold">Oops! Terjadi kesalahan:</p>
+            <ul class="list-disc pl-5 mt-2 text-sm">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Kolom Foto Profil -->
+        <div class="lg:col-span-1">
+            <div class="card">
+                <div class="card-body flex flex-col items-center text-center">
+                    <h5 class="card-title mb-2">Foto Profil</h5>
+                    <p class="card-subtitle mb-4">JPG, GIF atau PNG. Ukuran maks 2MB.</p>
+
+                    <div class="relative w-32 h-32 rounded-full overflow-hidden mb-4 group">
+                        <img src="{{ $user->photo ? asset('storage/' . $user->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&color=7F9CF5&background=EBF4FF' }}"
+                            alt="Foto Profil" class="w-full h-full object-cover">
+                        <label for="photo-input"
+                            class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer">
+                            <i class="ti ti-camera text-white text-2xl"></i>
+                        </label>
+                    </div>
+
+                    <h4 class="text-lg font-medium text-dark">{{ $user->name }}</h4>
+                    <p class="text-sm text-bodytext">{{ $user->email }}</p>
+                    <p class="text-sm text-bodytext capitalize">{{ $user->role }}</p>
+
+                    <!-- Form untuk Upload Foto (tersembunyi) -->
+                    <form action="{{ route('pengaturan.photo.update') }}" method="POST" enctype="multipart/form-data" id="photo-upload-form" class="hidden">
+                        @csrf
+                        <input type="file" name="photo" id="photo-input" accept="image/*"
+                            onchange="document.getElementById('photo-upload-form').submit();">
+                    </form>
+
+                    <!-- Grup Tombol Aksi Foto -->
+                    <div class="flex gap-2 mt-4">
+                        <button type="button" onclick="document.getElementById('photo-input').click()" class="btn btn-sm btn-primary">
+                            Ubah Foto
+                        </button>
+                        
+                        @if($user->photo)
+                        <!-- Form untuk Hapus Foto -->
+                        <form action="{{ route('pengaturan.photo.destroy') }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus foto profil?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-outline-error">
+                                Hapus Foto
+                            </button>
+                        </form>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kolom Informasi & Password -->
+        <div class="lg:col-span-2">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Navigasi Tabs -->
+                    <div class="border-b border-border mb-6">
+                        <nav class="flex space-x-4" aria-label="Tabs">
+                            <button type="button" class="tab-button active" data-tab-target="#profile-tab-content">
+                                <i class="ti ti-user-circle mr-2"></i> Informasi Profil
+                            </button>
+                            <button type="button" class="tab-button" data-tab-target="#password-tab-content">
+                                <i class="ti ti-lock mr-2"></i> Ubah Kata Sandi
+                            </button>
+                        </nav>
+                    </div>
+
+                    <!-- Konten Tabs -->
+                    <div>
+                        <!-- Tab Konten Informasi Profil -->
+                        <div id="profile-tab-content" class="tab-content">
+                            <form action="{{ route('pengaturan.profile.update') }}" method="POST" class="space-y-4">
+                                @csrf
+                                @method('PATCH')
+                                <div class="form-group">
+                                    <label for="name" class="form-label">Nama Lengkap</label>
+                                    <input type="text" class="form-control @error('name') border-error @enderror" id="name" name="name" value="{{ old('name', $user->name) }}" required>
+                                    @error('name')<p class="text-error text-xs mt-1">{{ $message }}</p>@enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="email" class="form-label">Alamat Email</label>
+                                    <input type="email" class="form-control @error('email') border-error @enderror" id="email" name="email" value="{{ old('email', $user->email) }}" required>
+                                    @error('email')<p class="text-error text-xs mt-1">{{ $message }}</p>@enderror
+                                </div>
+                                <div class="flex justify-end mt-6">
+                                    <button type="submit" class="btn btn-primary">Simpan Perubahan Profil</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Tab Konten Ubah Password -->
+                        <div id="password-tab-content" class="tab-content hidden">
+                            <form action="{{ route('pengaturan.password.update') }}" method="POST" class="space-y-4">
+                                @csrf
+                                @method('PATCH')
+                                <div class="form-group">
+                                    <label for="current_password" class="form-label">Kata Sandi Saat Ini</label>
+                                    <input type="password" class="form-control @error('current_password') border-error @enderror" id="current_password" name="current_password" required>
+                                    @error('current_password')<p class="text-error text-xs mt-1">{{ $message }}</p>@enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="form-label">Kata Sandi Baru</label>
+                                    <input type="password" class="form-control @error('password') border-error @enderror" id="password" name="password" required>
+                                    @error('password')<p class="text-error text-xs mt-1">{{ $message }}</p>@enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="password_confirmation" class="form-label">Konfirmasi Kata Sandi Baru</label>
+                                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
+                                </div>
+                                <div class="flex justify-end mt-6">
+                                    <button type="submit" class="btn btn-primary">Perbarui Kata Sandi</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabContents.forEach(content => content.classList.add('hidden'));
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    const target = document.querySelector(button.dataset.tabTarget);
+                    if (target) {
+                        target.classList.remove('hidden');
+                    }
+                    button.classList.add('active');
+                });
+            });
+        });
+    </script>
+    <style>
+        .tab-button {
+            @apply py-3 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-bodytext hover:text-primary;
+        }
+        .tab-button.active {
+            @apply font-semibold border-primary text-primary;
+        }
+    </style>
+@endpush
+resources/views/pages/peramalan.blade.php
+@extends('layouts.app')
+
+@section('content')
+    <!-- Header & Breadcrumb -->
+    <div class="card bg-lightprimary shadow-none position-relative overflow-hidden mb-6">
+        <div class="card-body md:py-3 py-5">
+            <div class="flex items-center grid grid-cols-12 gap-6">
+                <div class="col-span-12">
+                    <h4 class="font-semibold text-xl text-dark mb-3">
+                        Peramalan Kebutuhan Kedelai
+                    </h4>
+                    <ol class="flex items-center whitespace-nowrap" aria-label="Breadcrumb">
+                        <li class="inline-flex items-center">
+                            <a class="flex items-center text-sm text-gray-500 hover:text-primary focus:outline-none focus:text-primary"
+                                href="{{ route('dashboard') }}">
+                                Home
+                            </a>
+                            <i class="ti ti-slash text-sm mx-2"></i>
+                        </li>
+                        <li class="inline-flex items-center text-sm font-semibold text-dark truncate" aria-current="page">
+                            Peramalan
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Konten Utama -->
+    <div class="card">
+        <div class="card-body">
+            <!-- Form Peramalan -->
+            <div class="pb-6 border-b border-border">
+                <h5 class="card-title">Parameter Peramalan</h5>
+                <p class="card-subtitle mb-4">Pilih periode untuk melakukan peramalan kebutuhan kedelai.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                    <div>
+                        <label for="periode" class="block text-sm font-medium mb-1">Periode Peramalan</label>
+                        <select id="periode" name="periode" class="form-control">
+                            <option>7 Hari ke Depan</option>
+                            <option>14 Hari ke Depan</option>
+                            <option>30 Hari ke Depan</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-2">
+                        <button id="btn-ramal"
+                            class="btn btn-primary w-full md:w-auto flex items-center gap-2 justify-center">
+                            <i id="icon-ramal" class="ti ti-player-play"></i>
+                            <span id="text-ramal">Mulai Peramalan</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hasil Peramalan -->
+            <div id="hasil-peramalan-container" class="pt-6">
+                <h5 class="card-title mb-4">Hasil Peramalan</h5>
+                <div class="text-center text-bodytext py-10">
+                    <i class="ti ti-chart-infographic text-5xl mb-2"></i>
+                    <p>Hasil peramalan akan muncul di sini setelah proses dijalankan.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@push('scripts')
+<script>
+    document.getElementById('btn-ramal').addEventListener('click', function() {
+    // 1. Tampilkan Loading State
+    const button = this;
+    const icon = document.getElementById('icon-ramal');
+    const text = document.getElementById('text-ramal');
+    
+    button.disabled = true;
+    icon.className = 'ti ti-loader animate-spin'; // Ganti ikon dengan spinner
+    text.textContent = 'Sedang memproses...';
+
+    // 2. Simulasi Proses Backend (nantinya ini adalah call AJAX)
+    setTimeout(() => {
+        // 3. Tampilkan Hasil (Contoh dengan data statis)
+        const hasilContainer = document.getElementById('hasil-peramalan-container');
+        hasilContainer.innerHTML = `
+            <h5 class="card-title mb-4">Hasil Peramalan untuk 7 Hari ke Depan</h5>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="bg-lightgray"><tr>
+                        <th class="px-4 py-3 font-semibold text-sm">Tanggal</th>
+                        <th class="px-4 py-3 font-semibold text-sm text-right">Prediksi Kebutuhan (kg)</th>
+                    </tr></thead>
+                    <tbody>
+                        <tr class="border-b border-border"><td class="px-4 py-3">27 Mei 2024</td><td class="px-4 py-3 text-right font-medium">25.1</td></tr>
+                        <tr class="border-b border-border"><td class="px-4 py-3">28 Mei 2024</td><td class="px-4 py-3 text-right font-medium">24.8</td></tr>
+                        {{-- ... data lainnya ... --}}
+                    </tbody>
+                </table>
+            </div>
+            <div class="h-80 mt-6"><canvas id="grafikHasil"></canvas></div>
+        `;
+        
+        // (Tambahkan logika untuk render grafik di sini)
+
+        // 4. Kembalikan Tombol ke State Semula
+        button.disabled = false;
+        icon.className = 'ti ti-player-play';
+        text.textContent = 'Mulai Peramalan';
+
+    }, 2500); // Simulasi delay 2.5 detik
+});
+</script>
+@endpush
+
+resources/views/pages/landing/layouts/app.blade.php
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="ltr" data-color-theme="Soybean_Harvest_Theme" class="light selected">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Pabrik Tahu Melati, produsen tahu berkualitas tinggi di Kota Batu sejak 1980. Tradisi rasa, kualitas terjamin.">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/logos/favicon.ico') }}" />
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+    
+    <!-- Core Css -->
+    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}" />
+    
+    <title>Pabrik Tahu Melati - Kualitas & Tradisi dari Kota Batu</title>
+</head>
+
+<body class="bg-white">
+    <main>
+        <div id="main-wrapper" class="flex landingpage">
+            <div class="w-full">
+                <!-- Header -->
+                @include('pages.landing.layouts.header')
+
+                <!-- Main Content -->
+                <div class="max-w-full pt-6">
+                    @yield('content')
+                </div>
+
+                <!-- Footer -->
+                @include('pages.landing.layouts.footer')
+            </div>
+        </div>
+    </main>
+
+    {{-- Script untuk smooth scroll --}}
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+resources/views/pages/landing/layouts/header.blade.php
+<header class="sticky top-header top-0 inset-x-0 z-[5] flex flex-wrap md:justify-start md:flex-nowrap text-sm px-0 sm:py-3 py-2 bg-white shadow-md">
+    <div class="container container-xl flex items-center">
+        <div class="flex-1">
+            <div class="brand-logo flex items-center">
+                <a href="{{ route('landing.page') }}" class="text-nowrap logo-img">
+                    <img src="{{ asset('assets/images/logos/logo-pabrik.png') }}" class="block w-16" alt="Logo Pabrik Tahu Melati" />
+                </a>
+            </div>
+        </div>
+        
+        <!--- Mobile Toggle Icon --->
+        <div class="xl:hidden">
+            {{-- Tambahkan fungsionalitas menu mobile jika diperlukan --}}
+        </div>
+
+        <!-- Menu Utama -->
+        <div>
+            <ul class="xl:flex hidden items-center gap-6">
+                <li><a href="#tentang" class="hover:text-primary text-link text-sm font-medium">Tentang Kami</a></li>
+                <li><a href="#produk" class="hover:text-primary text-link text-sm font-medium">Produk Kami</a></li>
+                <li><a href="#proses" class="hover:text-primary text-link text-sm font-medium">Proses Produksi</a></li>
+                <li><a href="#lokasi" class="hover:text-primary text-link text-sm font-medium">Lokasi</a></li>
+                <li class="ml-4"><a href="{{ route('login') }}" class="btn py-1.5 px-6 text-sm">Login</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+resources/views/pages/landing/layouts/footer.blade.php
+<footer class="pt-16 pb-8 bg-lightgray">
+    <div class="container container-xl">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+
+            <!-- Kolom 1: Tentang Perusahaan (Lebih Dominan) -->
+            <div class="lg:col-span-2 md:col-span-2 col-span-1">
+                <h4 class="text-xl font-bold mt-4 mb-4">Pabrik Tahu Melati</h4>
+                <p class="opacity-80 pr-4">
+                    Menjaga tradisi rasa dan kualitas tahu terbaik dari Kota Batu sejak tahun 1980. Kami berkomitmen menyajikan produk sehat tanpa bahan pengawet dari kedelai lokal pilihan.
+                </p>
+            </div>
+
+            <!-- Kolom 2: Navigasi Cepat -->
+            <div>
+                <h4 class="text-lg font-bold mb-4">Navigasi</h4>
+                <ul class="space-y-3">
+                    <li><a href="#tentang" class="opacity-80 hover:opacity-100 hover:text-primary transition-colors duration-300">Tentang Kami</a></li>
+                    <li><a href="#produk" class="opacity-80 hover:opacity-100 hover:text-primary transition-colors duration-300">Produk</a></li>
+                    <li><a href="#proses" class="opacity-80 hover:opacity-100 hover:text-primary transition-colors duration-300">Proses</a></li>
+                    <li><a href="#lokasi" class="opacity-80 hover:opacity-100 hover:text-primary transition-colors duration-300">Lokasi</a></li>
+                </ul>
+            </div>
+
+            <!-- Kolom 3: Kontak & Info (Ringkas dengan Ikon) -->
+            <div>
+                <h4 class="text-lg font-bold mb-4">Kontak & Info</h4>
+                <div class="space-y-4">
+                    <div class="flex items-start">
+                        <i class="ti ti-map-pin text-primary text-xl mt-1"></i>
+                        <p class="ml-3 opacity-80">Jl. Lahor No.87, Pesanggrahan, Kec. Batu, Kota Batu</p>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="ti ti-phone text-primary text-xl"></i>
+                        <p class="ml-3 opacity-80">(0341) 59xxxx</p>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="ti ti-clock text-primary text-xl"></i>
+                        <p class="ml-3 opacity-80">06:00 - 16:00 WIB</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bagian Bawah Footer: Copyright dan Media Sosial -->
+        <div class="border-t border-gray-600/50 pt-6 flex flex-col md:flex-row justify-between items-center text-center md:text-left">
+            <p class="text-sm opacity-60 mb-4 md:mb-0">
+                © {{ date('Y') }} Pabrik Tahu Melati. All rights reserved.
+            </p>
+            {{-- <div class="flex space-x-5">
+                <a href="#" aria-label="Instagram" class="opacity-60 hover:opacity-100 hover:text-primary transition-colors duration-300">
+                    <i class="ti ti-brand-instagram text-2xl"></i>
+                </a>
+                <a href="#" aria-label="Facebook" class="opacity-60 hover:opacity-100 hover:text-primary transition-colors duration-300">
+                    <i class="ti ti-brand-facebook text-2xl"></i>
+                </a>
+                <a href="#" aria-label="WhatsApp" class="opacity-60 hover:opacity-100 hover:text-primary transition-colors duration-300">
+                    <i class="ti ti-brand-whatsapp text-2xl"></i>
+                </a>
+            </div> --}}
+        </div>
+    </div>
+</footer>
+resources/views/pages/landing/index.blade.php
+@extends('pages.landing.layouts.app')
+
+@section('content')
+    <!-- Hero Section -->
+    <section class="hero-section overflow-hidden items-center mb-12 bg-lightprimary py-16">
+        <div class="container container-xl">
+            <div class="grid grid-cols-12 gap-6 items-center">
+                <div class="xl:col-span-6 col-span-12">
+                    <div class="xl:pt-0 pt-8">
+                        <h6 class="flex items-center gap-2 text-base mb-3 text-secondary">
+                            <i class="ti ti-plant-2"></i> Sejak 1980, Kualitas Turun-temurun
+                        </h6>
+                        <h1 class="font-bold mb-7 lg:text-[55px] lg:leading-[66px] text-4xl">
+                            Pabrik Tahu Melati
+                            <br>
+                            <span class="text-primary">Kota Batu</span>
+                        </h1>
+                        <p class="text-lg mb-10">
+                            Menghadirkan tahu berkualitas terbaik yang dibuat dari kedelai pilihan dan resep tradisional.
+                            Rasakan kelembutan dan cita rasa otentik di setiap gigitan.
+                        </p>
+                        <div class="md:flex items-center gap-3.5">
+                            <a class="btn py-3 px-12 mb-3 sm:mb-0 flex justify-center" href="{{ route('login') }}">
+                                Login
+                            </a>
+                            <a class="btn btn-outline-primary scroll-link px-6 py-3 flex justify-center" href="#produk">
+                                Lihat Produk Kami
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:col-span-6 col-span-12 xl:block hidden">
+                    <div class="p-4 rounded overflow-hidden">
+                        <img src="{{ asset('assets/images/backgrounds/tahu-kedelai.jpg') }}" alt="Produk Tahu Melati"
+                            class="rounded-lg shadow-xl" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tentang Kami Section -->
+    <section id="tentang" class="py-16 mb-6">
+        <div class="container container-xl">
+            <div class="grid grid-cols-12 gap-8 items-center">
+                <div class="xl:col-span-5 col-span-12">
+                    <div class="rounded-lg overflow-hidden shadow-lg">
+                        {{-- Ganti dengan foto suasana pabrik atau pemilik --}}
+                        <img src="{{ asset('assets/images/backgrounds/pabrik-suasana.png') }}"
+                            alt="Suasana Pabrik Tahu Melati" class="w-full h-auto" />
+                    </div>
+                </div>
+                <div class="md:col-span-7 col-span-12">
+                    <h2 class="font-bold mb-5 text-4xl">
+                        Warisan Rasa, <span class="text-primary">Kualitas Terjaga</span>
+                    </h2>
+                    <p class="text-lg mb-6">
+                        Pabrik Tahu Melati didirikan pada tahun 1980 di jantung Kota Batu. Berawal dari usaha keluarga
+                        sederhana, kami berkomitmen untuk menjaga resep tradisional dan proses pembuatan tahu yang higienis
+                        untuk menghasilkan produk yang tidak hanya lezat, tetapi juga sehat dan bergizi.
+                    </p>
+                    <p class="text-lg">
+                        Misi kami adalah menjadi produsen tahu terpercaya bagi masyarakat, dengan selalu menggunakan kedelai
+                        lokal pilihan dan tanpa bahan pengawet.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Produk Section -->
+    <section id="produk" class="py-16 bg-lightgray mb-6">
+        <div class="container container-xl">
+            <div class="text-center lg:w-3/5 w-full mx-auto">
+                <h2 class="font-bold md:text-4xl text-2xl mb-6">Produk Unggulan Kami</h2>
+                <p class="text-lg mb-10">Dibuat dengan cinta dan dedikasi, setiap produk kami menjanjikan kualitas terbaik
+                    untuk setiap masakan Anda.</p>
+            </div>
+            <div class="grid grid-cols-12 gap-6 mt-6">
+                <!-- Produk 1: Tahu Putih Klasik -->
+                <div class="lg:col-span-4 md:col-span-6 col-span-12">
+                    <div class="card bg-white rounded-lg shadow-md h-full">
+                        <div class="card-body p-8">
+                            <div class="mb-6 text-yellow-500">
+                                <i class="ti ti-box text-5xl"></i>
+                            </div>
+                            <h3 class="font-bold text-2xl mb-4">Tahu Putih Klasik</h3>
+                            <p class="mb-6 text-gray-600">
+                                Lembut, padat, dan segar. Sempurna untuk digoreng, ditumis, atau dibuat sup. Produk andalan
+                                kami sejak dulu.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Produk 2: Tahu Kuning Khas -->
+                <div class="lg:col-span-4 md:col-span-6 col-span-12">
+                    <div class="card bg-white rounded-lg shadow-md h-full">
+                        <div class="card-body p-8">
+                            <div class="mb-6 text-primary">
+                                <i class="ti ti-cube text-5xl"></i>
+                            </div>
+                            <h3 class="font-bold text-2xl mb-4">Tahu Kuning Khas</h3>
+                            <p class="mb-6 text-gray-600">
+                                Dengan pewarna alami dari kunyit, memberikan aroma khas dan rasa yang lebih gurih. Cocok
+                                untuk tahu takwa.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Produk 3: Tahu Goreng Siap Saji -->
+                <div class="lg:col-span-4 md:col-span-6 col-span-12">
+                    <div class="card bg-white rounded-lg shadow-md h-full">
+                        <div class="card-body p-8">
+                            <div class="mb-6 text-orange-500">
+                                <i class="ti ti-flame text-5xl"></i>
+                            </div>
+                            <h3 class="font-bold text-2xl mb-4">Tahu Goreng Siap Saji</h3>
+                            <p class="mb-6 text-gray-600">
+                                Krispi di luar, lembut di dalam. Sudah dibumbui dengan resep rahasia kami, tinggal nikmati.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Proses Produksi Section -->
+    <section id="proses" class="py-16 mb-6">
+        <div class="container container-xl">
+            <div class="text-center lg:w-3/5 w-full mx-auto">
+                <h2 class="font-bold md:text-4xl text-2xl mb-6">Bagaimana Tahu Kami Dibuat?</h2>
+                <p class="text-lg mb-10">Kami menjaga setiap langkah proses produksi untuk memastikan kualitas terbaik
+                    sampai ke tangan Anda.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                <div>
+                    <div class="mx-auto bg-lightprimary h-20 w-20 rounded-full flex items-center justify-center mb-4"><i
+                            class="ti ti-droplet text-primary text-4xl"></i></div>
+                    <h4 class="font-bold text-lg mb-2">1. Pemilihan Kedelai</h4>
+                    <p>Hanya kedelai lokal berkualitas tinggi yang kami pilih dan rendam.</p>
+                </div>
+                <div>
+                    <div class="mx-auto bg-lightprimary h-20 w-20 rounded-full flex items-center justify-center mb-4"><i
+                            class="ti ti-flame text-primary text-4xl"></i></div>
+                    <h4 class="font-bold text-lg mb-2">2. Penggilingan & Pemasakan</h4>
+                    <p>Kedelai digiling halus dan dimasak hingga menjadi sari kedelai murni.</p>
+                </div>
+                <div>
+                    <div class="mx-auto bg-lightprimary h-20 w-20 rounded-full flex items-center justify-center mb-4"><i
+                            class="ti ti-filter text-primary text-4xl"></i></div>
+                    <h4 class="font-bold text-lg mb-2">3. Penyaringan</h4>
+                    <p>Sari kedelai disaring untuk memisahkan ampas, menghasilkan susu kedelai.</p>
+                </div>
+                <div>
+                    <div class="mx-auto bg-lightprimary h-20 w-20 rounded-full flex items-center justify-center mb-4"><i
+                            class="ti ti-box text-primary text-4xl"></i></div>
+                    <h4 class="font-bold text-lg mb-2">4. Pencetakan</h4>
+                    <p>Susu kedelai digumpalkan dan dicetak menjadi tahu yang padat dan lembut.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lokasi Section -->
+    <section id="lokasi" class="py-12 bg-lightgray">
+        <div class="container container-xl">
+            <div class="text-center lg:w-3/5 w-full mx-auto mb-10">
+                <h2 class="font-bold md:text-4xl text-2xl mb-6">Kunjungi Pabrik Kami</h2>
+                <p class="text-lg text-center">Lihat langsung proses produksi kami dan dapatkan produk tahu segar setiap
+                    hari.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="card p-0 overflow-hidden shadow-lg rounded-lg">
+                    <div class="h-96 w-full">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.916895318721!2d112.50640877402633!3d-7.867916278061452!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7887351d9d5f1d%3A0xee977acda0d939ec!2sTAHU%20MELATI%20BATU!5e0!3m2!1sen!2sid!4v1678886543210"
+                            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">Informasi Kontak</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start"><i class="ti ti-map-pin text-primary text-xl mt-1"></i>
+                            <p class="ml-4">Jl. Lahor No.87, RT.02/RW.07, Pesanggrahan, Kec. Batu, Kota Batu, Jawa Timur
+                                65313</p>
+                        </div>
+                        <div class="flex items-center"><i class="ti ti-phone text-primary text-xl"></i>
+                            <p class="ml-4">(0341) 59xxxx</p>
+                        </div>
+                        <div class="space-y-2 mt-4">
+                            <h4 class="font-bold text-lg">Jam Buka:</h4>
+                            <p>Setiap Hari: 06:00 - 16:00 WIB</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+@endsection
+resources/views/pages/dashboard.blade.php
+@extends('layouts.app')
+
+@section('content')
+    <!-- Stat Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Stok Kedelai -->
+        <div class="card">
+            <div class="card-body">
+                <div class="flex items-center gap-4">
+                    <div class="size-12 rounded-md bg-lightprimary flex items-center justify-center">
+                        <i class="ti ti-bowl text-primary text-2xl"></i>
+                    </div>
+                    <div>
+                        <h5 class="card-title">{{ number_format($currentStock, 1) }} kg</h5>
+                        <p class="card-subtitle">Stok Kedelai Saat Ini</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Prediksi Besok -->
+        <div class="card">
+            <div class="card-body">
+                <div class="flex items-center gap-4">
+                    <div class="size-12 rounded-md bg-lightsuccess flex items-center justify-center">
+                        <i class="ti ti-trending-up text-success text-2xl"></i>
+                    </div>
+                    <div>
+                        <h5 class="card-title text-success">{{ number_format($predictedUsageTomorrow, 1) }} kg</h5>
+                        <p class="card-subtitle">Prediksi Kebutuhan Besok</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Rata-rata Penggunaan -->
+        <div class="card">
+            <div class="card-body">
+                <div class="flex items-center gap-4">
+                    <div class="size-12 rounded-md bg-lightwarning flex items-center justify-center">
+                        <i class="ti ti-chart-pie-2 text-warning text-2xl"></i>
+                    </div>
+                    <div>
+                        <h5 class="card-title">{{ number_format($avgUsage, 1) }} kg</h5>
+                        <p class="card-subtitle">Rata-rata Penggunaan</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Tombol Aksi Cepat -->
+        <a href="{{ route('peramalan') }}" class="card bg-primary hover:bg-primaryemphasis transition-all duration-300">
+            <div class="card-body flex items-center justify-center text-white text-center">
+                <div>
+                    <i class="ti ti-report-analytics text-3xl"></i>
+                    <p class="font-semibold mt-1">Lakukan Peramalan</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Chart -->
+    <div class="card mt-6">
+        <div class="card-body">
+            <h5 class="card-title mb-4">Tren Penggunaan vs Peramalan (7 Hari Terakhir)</h5>
+            <div class="h-80">
+                <canvas id="trenChart"></canvas>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. Ambil nilai warna dari variabel CSS tema Anda
+            const rootStyles = getComputedStyle(document.documentElement);
+            const colorPrimary = rootStyles.getPropertyValue('--color-primary').trim();
+            const colorSecondary = rootStyles.getPropertyValue('--color-secondary').trim();
+            const colorLightPrimary = rootStyles.getPropertyValue('--color-lightprimary').trim();
+            const colorLightSecondary = rootStyles.getPropertyValue('--color-lightsecondary').trim();
+
+            const ctx = document.getElementById('trenChart');
+            if (ctx) {
+                new window.Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
+                        datasets: [{
+                            label: 'Penggunaan Aktual (kg)',
+                            data: [22, 24, 21, 25, 23, 26, 24],
+                            // 2. Gunakan variabel JavaScript yang sudah berisi nilai warna
+                            borderColor: colorSecondary, // Contoh: #4CAF50
+                            backgroundColor: colorLightSecondary, // Contoh: #E9F7EA
+                            tension: 0.3,
+                            fill: true,
+                            pointBackgroundColor: colorSecondary,
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: colorSecondary,
+                        }, {
+                            label: 'Hasil Peramalan (kg)',
+                            data: [23, 23.5, 22, 24, 24.5, 25, 25.5],
+                            // 3. Gunakan variabel JavaScript yang sudah berisi nilai warna
+                            borderColor: colorPrimary, // Contoh: #D4A017
+                            backgroundColor: colorLightPrimary, // Contoh: #FDF4D7
+                            tension: 0.3,
+                            fill: true,
+                            pointBackgroundColor: colorPrimary,
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: colorPrimary,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: getComputedStyle(document.body).getPropertyValue(
+                                        '--color-border') // Warna grid sesuai tema
+                                },
+                                ticks: {
+                                    color: getComputedStyle(document.body).getPropertyValue(
+                                        '--color-bodytext') // Warna teks sumbu Y
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false // Sembunyikan grid vertikal
+                                },
+                                ticks: {
+                                    color: getComputedStyle(document.body).getPropertyValue(
+                                        '--color-bodytext') // Warna teks sumbu X
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: getComputedStyle(document.body).getPropertyValue(
+                                        '--color-bodytext') // Warna teks legenda
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+@endpush
+
+resources/views/pages/laporan.blade.php
+@extends('layouts.app')
+
+@section('content')
+    <!-- Header & Breadcrumb -->
+    <div class="card bg-lightprimary shadow-none position-relative overflow-hidden mb-6">
+        <div class="card-body md:py-3 py-5">
+            <div class="flex items-center grid grid-cols-12 gap-6">
+                <div class="col-span-12 md:col-span-8">
+                    <h4 class="font-semibold text-xl text-dark mb-3">
+                        Laporan
+                    </h4>
+                    <ol class="flex items-center whitespace-nowrap" aria-label="Breadcrumb">
+                        <li class="inline-flex items-center">
+                            <a class="flex items-center text-sm text-gray-500 hover:text-primary focus:outline-none focus:text-primary" href="{{ route('dashboard') }}">
+                                Home
+                            </a>
+                            <i class="ti ti-slash text-sm mx-2"></i>
+                        </li>
+                        <li class="inline-flex items-center text-sm font-semibold text-dark truncate" aria-current="page">
+                            Laporan
+                        </li>
+                    </ol>
+                </div>
+                <div class="col-span-12 md:col-span-4">
+                    <div class="flex justify-end">
+                        <a href="#" class="btn btn-secondary flex items-center gap-2">
+                            <i class="ti ti-download"></i>
+                            <span>Ekspor ke PDF</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Konten Utama -->
+     <div class="card">
+        <div class="card-body">
+            <!-- Filter Laporan -->
+            <div class="pb-6 border-b border-border">
+                <h5 class="card-title">Filter Laporan</h5>
+                <p class="card-subtitle mb-4">Pilih parameter untuk men-generate laporan.</p>
+                
+                {{-- Form untuk filter, method GET --}}
+                <form action="{{ route('laporan') }}" method="GET">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                        <div class="md:col-span-2">
+                            <label for="report_type" class="block text-sm font-medium mb-1">Jenis Laporan</label>
+                            {{-- Gunakan 'report_type' sebagai nama input --}}
+                            <select id="report_type" name="report_type" class="form-control" required>
+                                {{-- Gunakan old() atau $request->input() untuk menjaga nilai terpilih --}}
+                                <option value="usage" {{ $request->input('report_type') == 'usage' ? 'selected' : '' }}>Laporan Penggunaan Harian</option>
+                                <option value="stock" {{ $request->input('report_type') == 'stock' ? 'selected' : '' }}>Laporan Stok</option>
+                                <option value="purchase" {{ $request->input('report_type') == 'purchase' ? 'selected' : '' }}>Laporan Pembelian</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="start_date" class="block text-sm font-medium mb-1">Tanggal Mulai</label>
+                            <input type="date" id="start_date" name="start_date" class="form-control" value="{{ $request->input('start_date', now()->startOfMonth()->format('Y-m-d')) }}" required>
+                        </div>
+                        <div>
+                            <label for="end_date" class="block text-sm font-medium mb-1">Tanggal Akhir</label>
+                            <input type="date" id="end_date" name="end_date" class="form-control" value="{{ $request->input('end_date', now()->format('Y-m-d')) }}" required>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary">Tampilkan Laporan</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Area Hasil Laporan -->
+            <div class="pt-6">
+                 {{-- Tampilkan hasil jika ada --}}
+                 @if ($results)
+                    {{-- Tentukan judul berdasarkan jenis laporan --}}
+                    @php
+                        $reportTitle = '';
+                        if ($reportType == 'usage') $reportTitle = 'Laporan Penggunaan Harian';
+                        elseif ($reportType == 'stock') $reportTitle = 'Laporan Stok';
+                        elseif ($reportType == 'purchase') $reportTitle = 'Laporan Pembelian';
+                    @endphp
+                    
+                    <h5 class="card-title mb-4">Hasil: {{ $reportTitle }}</h5>
+                    <p class="card-subtitle mb-4">Periode: {{ \Carbon\Carbon::parse($request->start_date)->isoFormat('D MMMM Y') }} - {{ \Carbon\Carbon::parse($request->end_date)->isoFormat('D MMMM Y') }}</p>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-lightgray">
+                                <tr>
+                                    <th class="px-4 py-3 font-semibold text-sm">Tanggal</th>
+                                    @if ($reportType == 'usage')
+                                        <th class="px-4 py-3 font-semibold text-sm text-right">Penggunaan (kg)</th>
+                                    @elseif ($reportType == 'stock')
+                                        <th class="px-4 py-3 font-semibold text-sm text-right">Stok Akhir (kg)</th>
+                                    @elseif ($reportType == 'purchase')
+                                        <th class="px-4 py-3 font-semibold text-sm text-right">Pembelian (kg)</th>
+                                    @endif
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($results as $result)
+                                <tr class="border-b border-border">
+                                    <td class="px-4 py-3">{{ $result->date->isoFormat('dddd, D MMMM Y') }}</td>
+                                     @if ($reportType == 'usage')
+                                        <td class="px-4 py-3 text-right font-medium">{{ number_format($result->usage_kg, 2) }}</td>
+                                    @elseif ($reportType == 'stock')
+                                        <td class="px-4 py-3 text-right font-medium">{{ number_format($result->closing_stock_kg, 2) }}</td>
+                                    @elseif ($reportType == 'purchase')
+                                        <td class="px-4 py-3 text-right font-medium">{{ number_format($result->purchase_kg, 2) }}</td>
+                                    @endif
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="2" class="text-center py-10 text-bodytext">
+                                        Tidak ada data yang ditemukan untuk periode dan jenis laporan yang dipilih.
+                                    </td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                 @else
+                    {{-- Tampilkan placeholder jika belum ada filter --}}
+                    <div class="text-center text-bodytext py-10">
+                        <i class="ti ti-file-report text-5xl mb-2"></i>
+                        <p>Hasil laporan akan ditampilkan di sini.</p>
+                    </div>
+                 @endif
+            </div>
+        </div>
+    </div>
+@endsection
+resources/views/pages/data-kedelai/edit.blade.php
+@extends('layouts.app')
+
+@section('content')
+    <!-- Header & Breadcrumb -->
+    <div class="card bg-lightprimary shadow-none position-relative overflow-hidden mb-6">
+        <div class="card-body md:py-3 py-5">
+            <div class="flex items-center grid grid-cols-12 gap-6">
+                <div class="col-span-12 md:col-span-7">
+                    <h4 class="font-semibold text-xl text-dark mb-3">
+                        Edit Data Kedelai Tanggal {{ $stock->date->format('d M Y') }}
+                    </h4>
+                    <ol class="flex items-center whitespace-nowrap" aria-label="Breadcrumb">
+                        <li class="inline-flex items-center">
+                            <a class="flex items-center text-sm text-gray-500 hover:text-primary focus:outline-none focus:text-primary"
+                                href="{{ route('dashboard') }}">
+                                Home
+                            </a>
+                            <i class="ti ti-slash text-sm mx-2"></i>
+                        </li>
+                        <li class="inline-flex items-center text-sm font-semibold text-dark truncate" aria-current="page">
+                            Data Kedelai
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <form action="{{ route('data.kedelai.update', $stock->id) }}" method="POST">
+                @csrf
+                @method('PATCH')
+                @include('pages.data-kedelai.partials.form', ['isEdit' => true])
+                <div class="flex justify-end gap-3 mt-6">
+                    <a href="{{ route('data.kedelai.index') }}" class="btn btn-outline-primary">Batal</a>
+                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+@endsection
+
+resources/views/pages/data-kedelai/partials/form.blade.php
+@if ($errors->any())
+    <div class="bg-lighterror text-error px-4 py-3 rounded relative mb-6" role="alert">
+        <p class="font-bold">Oops! Harap periksa kembali isian Anda:</p>
+        <ul class="list-disc pl-5 mt-2 text-sm">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+{{-- Form Tanggal --}}
+<div class="mb-4 sm:mb-6">
+    <label for="date" class="block text-sm font-medium mb-2 text-dark">
+        Tanggal Pencatatan <span class="text-error">*</span>
+    </label>
+    <input type="date" id="date" name="date" 
+           value="{{ old('date', $isEdit ? $stock->date->format('Y-m-d') : now()->format('Y-m-d')) }}" 
+           class="form-control w-full text-sm @error('date') border-error @enderror" 
+           required 
+           {{-- Jika sedang edit, buat tanggal tidak bisa diubah untuk menjaga integritas --}}
+           {{ $isEdit ? 'readonly' : '' }}>
+    @error('date')
+        <p class="text-error text-xs sm:text-sm mt-1">{{ $message }}</p>
+    @enderror
+</div>
+
+{{-- Grid untuk Stok, Pembelian, dan Penggunaan --}}
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+    {{-- Stok Awal --}}
+    <div class="mb-3 sm:mb-4 sm:col-span-2">
+        <label for="opening_stock" class="block text-sm font-medium mb-2 text-dark">
+            Stok Awal (kg)
+        </label>
+        <input type="number" step="0.01" id="opening_stock" 
+               value="{{ $isEdit ? $openingStock : $openingStockForNewEntry }}" 
+               class="form-control w-full text-sm bg-lightgray" disabled>
+        <p class="text-xs text-bodytext mt-1">Stok awal dihitung otomatis dari stok akhir hari sebelumnya.</p>
+    </div>
+
+    {{-- Pembelian --}}
+    <div class="mb-3 sm:mb-4">
+        <label for="purchase_kg" class="block text-sm font-medium mb-2 text-dark">
+            Pembelian (kg)
+        </label>
+        <input type="number" id="purchase_kg" name="purchase_kg" min="0" step="0.01"
+               value="{{ old('purchase_kg', $isEdit ? $stock->purchase_kg : 0) }}" 
+               class="form-control w-full text-sm @error('purchase_kg') border-error @enderror" required>
+        @error('purchase_kg')
+            <p class="text-error text-xs sm:text-sm mt-1">{{ $message }}</p>
+        @enderror
+    </div>
+    
+    {{-- Penggunaan --}}
+    <div class="mb-3 sm:mb-4">
+        <label for="usage_kg" class="block text-sm font-medium mb-2 text-dark">
+            Penggunaan (kg) <span class="text-error">*</span>
+        </label>
+        <input type="number" id="usage_kg" name="usage_kg" min="0" step="0.01"
+               value="{{ old('usage_kg', $isEdit ? $stock->usage_kg : 0) }}" 
+               class="form-control w-full text-sm @error('usage_kg') border-error @enderror" required>
+        @error('usage_kg')
+            <p class="text-error text-xs sm:text-sm mt-1">{{ $message }}</p>
+        @enderror
+    </div>
+</div>
+
+{{-- Catatan --}}
+<div class="mb-4 sm:mb-6">
+    <label for="notes" class="block text-sm font-medium mb-2 text-dark">
+        Catatan (Opsional)
+    </label>
+    <textarea id="notes" name="notes" rows="3" class="form-control w-full text-sm @error('notes') border-error @enderror">{{ old('notes', $isEdit ? $stock->notes : '') }}</textarea>
+    @error('notes')
+        <p class="text-error text-xs sm:text-sm mt-1">{{ $message }}</p>
+    @enderror
+</div>
+resources/views/pages/data-kedelai/create.blade.php
+@extends('layouts.app')
+
+@section('content')
+    <!-- Header & Breadcrumb -->
+    <div class="card bg-lightprimary shadow-none position-relative overflow-hidden mb-6">
+        <div class="card-body md:py-3 py-5">
+            <div class="flex items-center grid grid-cols-12 gap-6">
+                <div class="col-span-12 md:col-span-7">
+                    <h4 class="font-semibold text-xl text-dark mb-3">
+                        Tambah Data Kedelai Harian
+                    </h4>
+                    <ol class="flex items-center whitespace-nowrap" aria-label="Breadcrumb">
+                        <li class="inline-flex items-center">
+                            <a class="flex items-center text-sm text-gray-500 hover:text-primary focus:outline-none focus:text-primary"
+                                href="{{ route('dashboard') }}">
+                                Home
+                            </a>
+                            <i class="ti ti-slash text-sm mx-2"></i>
+                        </li>
+                        <li class="inline-flex items-center text-sm font-semibold text-dark truncate" aria-current="page">
+                            Data Kedelai
+                        </li>
+                    </ol>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <form action="{{ route('data.kedelai.store') }}" method="POST">
+                @csrf
+                @include('pages.data-kedelai.partials.form', ['isEdit' => false])
+                <div class="flex justify-end gap-3 mt-6">
+                    <a href="{{ route('data.kedelai.index') }}" class="btn btn-outline-primary">Batal</a>
+                    <button type="submit" class="btn btn-primary">Simpan Data</button>
+                </div>
+            </form>
+        </div>
+    </div>
+@endsection
+
+resources/views/pages/data-kedelai/index.blade.php
+@extends('layouts.app')
+
+@section('content')
+    <!-- Header & Breadcrumb -->
+    <div class="card bg-lightprimary shadow-none position-relative overflow-hidden mb-6">
+        <div class="card-body md:py-3 py-5">
+            <div class="flex items-center grid grid-cols-12 gap-6">
+                <div class="col-span-12 md:col-span-7">
+                    <h4 class="font-semibold text-xl text-dark mb-3">
+                        Manajemen Data Kedelai
+                    </h4>
+                    <ol class="flex items-center whitespace-nowrap" aria-label="Breadcrumb">
+                        <li class="inline-flex items-center">
+                            <a class="flex items-center text-sm text-gray-500 hover:text-primary focus:outline-none focus:text-primary"
+                                href="{{ route('dashboard') }}">
+                                Home
+                            </a>
+                            <i class="ti ti-slash text-sm mx-2"></i>
+                        </li>
+                        <li class="inline-flex items-center text-sm font-semibold text-dark truncate" aria-current="page">
+                            Data Kedelai
+                        </li>
+                    </ol>
+                </div>
+                <div class="col-span-12 md:col-span-5">
+                    <div class="flex justify-end">
+                        <a href="{{ route('data.kedelai.create') }}" class="btn btn-primary flex items-center gap-2">
+                            <i class="ti ti-plus"></i>
+                            <span>Tambah Data Harian</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (session('status'))
+        <div class="bg-lightsuccess text-success px-4 py-3 rounded relative mb-4" role="alert">
+            <span class="block sm:inline">{{ session('status') }}</span>
+        </div>
+    @endif
+    @if (session('error'))
+        <div class="bg-lighterror text-error px-4 py-3 rounded relative mb-4" role="alert">
+            <span class="block sm:inline">{{ session('error') }}</span>
+        </div>
+    @endif
+
+    <!-- Tabel Data -->
+    <div class="card">
+        <div class="card-body">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="bg-lightgray">
+                            <th class="px-4 py-3 font-semibold text-sm">Tanggal</th>
+                            <th class="px-4 py-3 font-semibold text-sm">Stok Awal</th>
+                            <th class="px-4 py-3 font-semibold text-sm">Pembelian</th>
+                            <th class="px-4 py-3 font-semibold text-sm">Penggunaan</th>
+                            <th class="px-4 py-3 font-semibold text-sm">Stok Akhir</th>
+                            <th class="px-4 py-3 font-semibold text-sm text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($stocks as $stock)
+                            <tr class="border-b border-border">
+                                <td class="px-4 py-3">{{ $stock->date->format('d M Y') }}</td>
+                                <td class="px-4 py-3">{{ number_format($stock->opening_stock, 1) }}</td>
+                                <td class="px-4 py-3 text-success font-medium">+{{ number_format($stock->purchase_kg, 1) }}
+                                </td>
+                                <td class="px-4 py-3 text-error font-medium">-{{ number_format($stock->usage_kg, 1) }}</td>
+                                <td class="px-4 py-3 font-semibold">{{ number_format($stock->closing_stock_kg, 1) }}</td>
+                                <td class="px-4 py-3">
+                                    <div class="flex gap-2 justify-center">
+                                        {{-- Link ke halaman edit --}}
+                                        <a href="{{ route('data.kedelai.edit', $stock->id) }}"
+                                            class="p-2 bg-lightsecondary rounded-full hover:bg-secondary hover:text-white transition-all"
+                                            title="Edit">
+                                            <i class="ti ti-edit text-secondary hover:text-white"></i>
+                                        </a>
+                                        @if (auth()->user()->role === 'admin')
+                                            <form action="{{ route('data.kedelai.destroy', $stock->id) }}" method="POST"
+                                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="p-2 bg-lighterror rounded-full hover:bg-error hover:text-white transition-all"
+                                                    title="Hapus">
+                                                    <i class="ti ti-trash text-error hover:text-white"></i>
+                                                </button>
+                                            </form>
+                                        @endif
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center py-10 text-bodytext">Belum ada data.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-4">{{ $stocks->links() }}</div>
+        </div>
+    </div>
+@endsection
+
+resources/js/app.js
+import './bootstrap';
+
+import Alpine from 'alpinejs';
+
+window.Alpine = Alpine;
+
+Alpine.start();
+
+resources/js/bootstrap.js
+import axios from 'axios';
+window.axios = axios;
+
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+postcss.config.js
+export default {
+    plugins: {
+        tailwindcss: {},
+        autoprefixer: {},
+    },
+};
+
+.editorconfig
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 4
+indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.{yml,yaml}]
+indent_size = 2
+
+[docker-compose.yml]
+indent_size = 4
+
+tailwind.config.js
+import defaultTheme from 'tailwindcss/defaultTheme';
+import forms from '@tailwindcss/forms';
+
+/** @type {import('tailwindcss').Config} */
+export default {
+    content: [
+        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
+        './storage/framework/views/*.php',
+        './resources/views/**/*.blade.php',
+    ],
+
+    theme: {
+        extend: {
+            fontFamily: {
+                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+            },
+        },
+    },
+
+    plugins: [forms],
+};
+
+composer.json
+{
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "laravel/laravel",
+    "type": "project",
+    "description": "The skeleton application for the Laravel framework.",
+    "keywords": ["laravel", "framework"],
+    "license": "MIT",
+    "require": {
+        "php": "^8.2",
+        "laravel/framework": "^11.31",
+        "laravel/tinker": "^2.9"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.23",
+        "laravel/pail": "^1.1",
+        "laravel/pint": "^1.13",
+        "laravel/sail": "^1.26",
+        "mockery/mockery": "^1.6",
+        "nunomaduro/collision": "^8.1",
+        "pestphp/pest": "^3.8",
+        "pestphp/pest-plugin-laravel": "^3.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi",
+            "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
+            "@php artisan migrate --graceful --ansi"
+        ],
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
+
+database/factories/UserFactory.php
+<?php
+
+namespace Database\Factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ */
+class UserFactory extends Factory
+{
+    /**
+     * The current password being used by the factory.
+     */
+    protected static ?string $password;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'name' => fake()->name(),
+            'email' => fake()->unique()->safeEmail(),
+            'email_verified_at' => now(),
+            'password' => static::$password ??= Hash::make('password'),
+            'remember_token' => Str::random(10),
+        ];
+    }
+
+    /**
+     * Indicate that the model's email address should be unverified.
+     */
+    public function unverified(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'email_verified_at' => null,
+        ]);
+    }
+}
+
+database/.gitignore
+*.sqlite*
+
+database/seeders/ForecastSeeder.php
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use App\Models\Forecast;
+
+class ForecastSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        // Hapus data ramalan lama untuk diisi dengan yang baru
+        // Ini penting karena kolom tanggal bersifat unik
+        Forecast::truncate();
+        
+        $daysToForecast = 30; // Jumlah hari peramalan ke depan
+
+        for ($i = 1; $i <= $daysToForecast; $i++) {
+            Forecast::create([
+                'forecast_date' => now()->addDays($i),
+                'predicted_usage_kg' => rand(25, 55) + (rand(0, 99) / 100), // Prediksi penggunaan
+                'generated_at' => now(),
+                'source' => 'holt_winters_v1_dummy',
+            ]);
+        }
+    }
+}
+database/seeders/DatabaseSeeder.php
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Schema; // <-- Tambahkan ini
+
+class DatabaseSeeder extends Seeder
+{
+    /**
+     * Seed the application's database.
+     */
+    public function run(): void
+    {
+        // Nonaktifkan pemeriksaan foreign key untuk sementara
+        Schema::disableForeignKeyConstraints();
+
+        // 1. Panggil Seeder untuk User
+        // Truncate di dalam UserSeeder akan berjalan dengan aman sekarang
+        $this->call(UserSeeder::class);
+        
+        // 2. Panggil Seeder untuk Stok Kedelai
+        // Truncate di dalam SoybeanStockSeeder juga akan berjalan aman
+        $this->call(SoybeanStockSeeder::class);
+        
+        // 3. Panggil Seeder untuk Peramalan
+        $this->call(ForecastSeeder::class);
+
+        // Aktifkan kembali pemeriksaan foreign key setelah semua seeder selesai
+        Schema::enableForeignKeyConstraints();
+    }
+}
+database/seeders/UserSeeder.php
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
+class UserSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        User::truncate();
+
+        User::create([
+            'name' => 'Sely Ruli Amanda',
+            'email' => 'admin@gmail.com',
+            'password' => Hash::make('password'),
+            'role' => 'admin',
+        ]);
+
+        User::factory(3)->create([
+            'role' => 'staff', 
+            'password' => Hash::make('password'), 
+        ]);
+    }
+}
+database/seeders/SoybeanStockSeeder.php
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\SoybeanStock;
+
+class SoybeanStockSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        // Hapus data lama
+        SoybeanStock::truncate();
+
+        // Ambil semua ID user yang ada untuk di-assign secara acak
+        $userIds = User::pluck('id');
+
+        // Tentukan kondisi awal
+        $currentClosingStock = 500.00; // Stok awal 90 hari yang lalu
+        $daysOfData = 10; // Jumlah hari data historis yang ingin dibuat
+
+        // Loop untuk membuat data dari 90 hari yang lalu hingga kemarin
+        for ($i = $daysOfData; $i >= 1; $i--) {
+            $date = now()->subDays($i);
+
+            // Stok awal hari ini adalah stok akhir kemarin
+            $openingStock = $currentClosingStock;
+
+            // Simulasikan pembelian (tidak setiap hari ada pembelian)
+            $purchase = (rand(1, 4) == 1) ? rand(100, 250) + (rand(0, 99) / 100) : 0;
+            
+            // Simulasikan penggunaan harian
+            $usage = rand(20, 50) + (rand(0, 99) / 100);
+
+            // Hitung stok akhir, pastikan tidak negatif
+            $closingStock = max(0, $openingStock + $purchase - $usage);
+            
+            SoybeanStock::create([
+                'user_id' => $userIds->random(), // Pilih user secara acak
+                'date' => $date,
+                'purchase_kg' => $purchase,
+                'usage_kg' => $usage,
+                'closing_stock_kg' => $closingStock,
+                'notes' => (rand(1, 20) == 1) ? 'Pengecekan stok fisik' : null, // Sesekali tambahkan catatan
+            ]);
+
+            // Update stok akhir untuk iterasi berikutnya
+            $currentClosingStock = $closingStock;
+        }
+    }
+}
+database/migrations/0001_01_01_000000_create_users_table.php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->string('phone_number')->nullable();
+            $table->string('photo')->nullable();
+            $table->enum('role', ['admin', 'staff'])->default('staff');
+            $table->rememberToken();
+            $table->timestamps();
+        });
+
+        Schema::create('password_reset_tokens', function (Blueprint $table) {
+            $table->string('email')->primary();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
+        });
+
+        Schema::create('sessions', function (Blueprint $table) {
+            $table->string('id')->primary();
+            $table->foreignId('user_id')->nullable()->index();
+            $table->string('ip_address', 45)->nullable();
+            $table->text('user_agent')->nullable();
+            $table->longText('payload');
+            $table->integer('last_activity')->index();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('users');
+        Schema::dropIfExists('password_reset_tokens');
+        Schema::dropIfExists('sessions');
+    }
+};
+
+database/migrations/2025_07_15_041333_create_soybean_stocks_table.php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('soybean_stocks', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->date('date')->unique();
+            $table->decimal('purchase_kg', 8, 2)->default(0);
+            $table->decimal('usage_kg', 8, 2)->default(0);
+            $table->decimal('closing_stock_kg', 10, 2);
+            $table->text('notes')->nullable(); 
+            $table->timestamps(); 
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('soybean_stocks');
+    }
+};
+
+database/migrations/0001_01_01_000002_create_jobs_table.php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('jobs', function (Blueprint $table) {
+            $table->id();
+            $table->string('queue')->index();
+            $table->longText('payload');
+            $table->unsignedTinyInteger('attempts');
+            $table->unsignedInteger('reserved_at')->nullable();
+            $table->unsignedInteger('available_at');
+            $table->unsignedInteger('created_at');
+        });
+
+        Schema::create('job_batches', function (Blueprint $table) {
+            $table->string('id')->primary();
+            $table->string('name');
+            $table->integer('total_jobs');
+            $table->integer('pending_jobs');
+            $table->integer('failed_jobs');
+            $table->longText('failed_job_ids');
+            $table->mediumText('options')->nullable();
+            $table->integer('cancelled_at')->nullable();
+            $table->integer('created_at');
+            $table->integer('finished_at')->nullable();
+        });
+
+        Schema::create('failed_jobs', function (Blueprint $table) {
+            $table->id();
+            $table->string('uuid')->unique();
+            $table->text('connection');
+            $table->text('queue');
+            $table->longText('payload');
+            $table->longText('exception');
+            $table->timestamp('failed_at')->useCurrent();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('jobs');
+        Schema::dropIfExists('job_batches');
+        Schema::dropIfExists('failed_jobs');
+    }
+};
+
+database/migrations/2025_07_15_042038_create_forecasts_table.php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('forecasts', function (Blueprint $table) {
+            $table->id();
+            
+            // Tanggal yang diramalkan. Dibuat unik agar hanya ada 1 ramalan resmi per hari.
+            $table->date('forecast_date')->unique();
+            
+            // Nilai yang diramalkan. Kita fokus meramal 'penggunaan' karena lebih actionable.
+            $table->decimal('predicted_usage_kg', 8, 2);
+            
+            // Kapan ramalan ini dibuat? Penting untuk melacak histori & performa model.
+            $table->dateTime('generated_at');
+            
+            // Sumber ramalan. Berguna jika ada >1 model atau ada input manual.
+            // Contoh: 'holt_winters_v1', 'manual_override'
+            $table->string('source')->nullable();
+
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('forecasts');
+    }
+};
+database/migrations/0001_01_01_000001_create_cache_table.php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('cache', function (Blueprint $table) {
+            $table->string('key')->primary();
+            $table->mediumText('value');
+            $table->integer('expiration');
+        });
+
+        Schema::create('cache_locks', function (Blueprint $table) {
+            $table->string('key')->primary();
+            $table->string('owner');
+            $table->integer('expiration');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('cache');
+        Schema::dropIfExists('cache_locks');
+    }
+};
+
+package.json
+{
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "vite build",
+        "dev": "vite"
+    },
+    "devDependencies": {
+        "@tailwindcss/forms": "^0.5.2",
+        "alpinejs": "^3.4.2",
+        "autoprefixer": "^10.4.2",
+        "axios": "^1.7.4",
+        "concurrently": "^9.0.1",
+        "laravel-vite-plugin": "^1.2.0",
+        "postcss": "^8.4.31",
+        "tailwindcss": "^3.1.0",
+        "vite": "^6.0.11"
+    },
+    "dependencies": {
+        "chart.js": "^4.5.0"
+    }
+}
+
+vite.config.js
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            input: ['resources/css/app.css', 'resources/js/app.js'],
+            refresh: true,
+        }),
+    ],
+});
+
+.gitignore
+/.phpunit.cache
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/vendor
+.env
+.env.backup
+.env.production
+.phpactor.json
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+/auth.json
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
+
+artisan
+#!/usr/bin/env php
+<?php
+
+use Symfony\Component\Console\Input\ArgvInput;
+
+define('LARAVEL_START', microtime(true));
+
+// Register the Composer autoloader...
+require __DIR__.'/vendor/autoload.php';
+
+// Bootstrap Laravel and handle the command...
+$status = (require_once __DIR__.'/bootstrap/app.php')
+    ->handleCommand(new ArgvInput);
+
+exit($status);
+
+.env.example
+APP_NAME=Laravel
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_TIMEZONE=UTC
+APP_URL=http://localhost
+
+APP_LOCALE=en
+APP_FALLBACK_LOCALE=en
+APP_FAKER_LOCALE=en_US
+
+APP_MAINTENANCE_DRIVER=file
+# APP_MAINTENANCE_STORE=database
+
+PHP_CLI_SERVER_WORKERS=4
+
+BCRYPT_ROUNDS=12
+
+LOG_CHANNEL=stack
+LOG_STACK=single
+LOG_DEPRECATIONS_CHANNEL=null
+LOG_LEVEL=debug
+
+DB_CONNECTION=sqlite
+# DB_HOST=127.0.0.1
+# DB_PORT=3306
+# DB_DATABASE=laravel
+# DB_USERNAME=root
+# DB_PASSWORD=
+
+SESSION_DRIVER=database
+SESSION_LIFETIME=120
+SESSION_ENCRYPT=false
+SESSION_PATH=/
+SESSION_DOMAIN=null
+
+BROADCAST_CONNECTION=log
+FILESYSTEM_DISK=local
+QUEUE_CONNECTION=database
+
+CACHE_STORE=database
+CACHE_PREFIX=
+
+MEMCACHED_HOST=127.0.0.1
+
+REDIS_CLIENT=phpredis
+REDIS_HOST=127.0.0.1
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+
+MAIL_MAILER=log
+MAIL_SCHEME=null
+MAIL_HOST=127.0.0.1
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_FROM_ADDRESS="hello@example.com"
+MAIL_FROM_NAME="${APP_NAME}"
+
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_DEFAULT_REGION=us-east-1
+AWS_BUCKET=
+AWS_USE_PATH_STYLE_ENDPOINT=false
+
+VITE_APP_NAME="${APP_NAME}"
+
+routes/web.php
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SoybeanStockController;
+use App\Http\Controllers\ForecastController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ProfileController; // Ganti dengan controller Anda jika berbeda
+use App\Http\Controllers\Auth\LoginController;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::view('/', 'pages.landing.index')->name('landing.page');
+// --- RUTE UNTUK AUTENTIKASI ---
+// Rute untuk pengguna yang belum login (Guest)
+Route::middleware('guest')->group(function () {
+    Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [LoginController::class, 'login']);
+});
+
+// Rute untuk logout (harus sudah login)
+Route::post('logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
+
+Route::middleware('auth')->group(function () {
+
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Data Kedelai
+    Route::resource('data-kedelai', SoybeanStockController::class)->names('data.kedelai');
+
+    // Peramalan
+    Route::get('/peramalan', [ForecastController::class, 'index'])->name('peramalan');
+    Route::post('/peramalan/generate', [ForecastController::class, 'generate'])->name('peramalan.generate');
+
+    // Laporan
+    Route::get('/laporan', [ReportController::class, 'index'])->name('laporan');
+
+    // Pengaturan Akun
+    Route::get('/pengaturan', [ProfileController::class, 'edit'])->name('pengaturan');
+    Route::patch('/pengaturan/profile', [ProfileController::class, 'updateProfile'])->name('pengaturan.profile.update');
+    Route::patch('/pengaturan/password', [ProfileController::class, 'updatePassword'])->name('pengaturan.password.update');
+    Route::post('/pengaturan/photo', [ProfileController::class, 'updatePhoto'])->name('pengaturan.photo.update');
+    Route::delete('/pengaturan/photo', [ProfileController::class, 'destroyPhoto'])->name('pengaturan.photo.destroy');
+});
+
+routes/console.php
+<?php
+
+use Illuminate\Foundation\Inspiring;
+use Illuminate\Support\Facades\Artisan;
+
+Artisan::command('inspire', function () {
+    $this->comment(Inspiring::quote());
+})->purpose('Display an inspiring quote');
+

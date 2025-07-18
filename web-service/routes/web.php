@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
 
     // Laporan
     Route::get('/laporan', [ReportController::class, 'index'])->name('laporan');
+    Route::get('/laporan/export', [ReportController::class, 'export'])->name('laporan.export');
 
     // Pengaturan Akun
     Route::get('/pengaturan', [ProfileController::class, 'edit'])->name('pengaturan');

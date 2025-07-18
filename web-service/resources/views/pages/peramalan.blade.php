@@ -65,47 +65,127 @@
 @endsection
 
 @push('scripts')
-<script>
-    document.getElementById('btn-ramal').addEventListener('click', function() {
-    // 1. Tampilkan Loading State
-    const button = this;
-    const icon = document.getElementById('icon-ramal');
-    const text = document.getElementById('text-ramal');
-    
-    button.disabled = true;
-    icon.className = 'ti ti-loader animate-spin'; // Ganti ikon dengan spinner
-    text.textContent = 'Sedang memproses...';
+    {{-- Chart.js juga akan kita gunakan di sini --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.getElementById('btn-ramal').addEventListener('click', async function() {
+            // 1. Setup & Loading State
+            const button = this;
+            const icon = document.getElementById('icon-ramal');
+            const text = document.getElementById('text-ramal');
+            const hasilContainer = document.getElementById('hasil-peramalan-container');
+            const periodeSelect = document.getElementById('periode');
+            const days = parseInt(periodeSelect.value);
 
-    // 2. Simulasi Proses Backend (nantinya ini adalah call AJAX)
-    setTimeout(() => {
-        // 3. Tampilkan Hasil (Contoh dengan data statis)
-        const hasilContainer = document.getElementById('hasil-peramalan-container');
-        hasilContainer.innerHTML = `
-            <h5 class="card-title mb-4">Hasil Peramalan untuk 7 Hari ke Depan</h5>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left">
-                    <thead class="bg-lightgray"><tr>
-                        <th class="px-4 py-3 font-semibold text-sm">Tanggal</th>
-                        <th class="px-4 py-3 font-semibold text-sm text-right">Prediksi Kebutuhan (kg)</th>
-                    </tr></thead>
-                    <tbody>
-                        <tr class="border-b border-border"><td class="px-4 py-3">27 Mei 2024</td><td class="px-4 py-3 text-right font-medium">25.1</td></tr>
-                        <tr class="border-b border-border"><td class="px-4 py-3">28 Mei 2024</td><td class="px-4 py-3 text-right font-medium">24.8</td></tr>
-                        {{-- ... data lainnya ... --}}
-                    </tbody>
-                </table>
-            </div>
-            <div class="h-80 mt-6"><canvas id="grafikHasil"></canvas></div>
-        `;
-        
-        // (Tambahkan logika untuk render grafik di sini)
+            button.disabled = true;
+            icon.className = 'ti ti-loader animate-spin';
+            text.textContent = 'Menghubungi layanan peramalan...';
+            
+            // Hapus hasil lama
+            hasilContainer.innerHTML = `<div class="text-center py-10"><i class="ti ti-loader animate-spin text-3xl"></i><p class="mt-2">Sedang memproses...</p></div>`;
 
-        // 4. Kembalikan Tombol ke State Semula
-        button.disabled = false;
-        icon.className = 'ti ti-player-play';
-        text.textContent = 'Mulai Peramalan';
+            try {
+                // 2. Kirim AJAX Request menggunakan Fetch API
+                const response = await fetch("{{ route('peramalan.generate') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}", // Penting untuk keamanan
+                        'Accept': 'application/json',
+                    },
+                    body: JSON.stringify({ days: days })
+                });
 
-    }, 2500); // Simulasi delay 2.5 detik
-});
-</script>
+                const data = await response.json();
+
+                if (!response.ok) {
+                    // Jika ada error dari backend (validasi, server error, dll)
+                    throw new Error(data.error || `Terjadi kesalahan: ${response.statusText}`);
+                }
+                
+                // 3. Jika berhasil, render hasil ke halaman
+                renderHasil(data, days);
+
+            } catch (error) {
+                // 4. Tangani jika ada error jaringan atau dari backend
+                console.error('Error saat peramalan:', error);
+                hasilContainer.innerHTML = `
+                    <div class="text-center text-error py-10">
+                        <i class="ti ti-alert-triangle text-5xl mb-2"></i>
+                        <p class="font-bold">Gagal Melakukan Peramalan</p>
+                        <p class="text-sm mt-1">${error.message}</p>
+                    </div>`;
+            } finally {
+                // 5. Kembalikan tombol ke state semula
+                button.disabled = false;
+                icon.className = 'ti ti-player-play';
+                text.textContent = 'Mulai Peramalan';
+            }
+        });
+
+        function renderHasil(data, days) {
+            const hasilContainer = document.getElementById('hasil-peramalan-container');
+
+            // Buat baris tabel
+            let tableRows = '';
+            data.forEach(item => {
+                const date = new Date(item.tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+                tableRows += `
+                    <tr class="border-b border-border">
+                        <td class="px-4 py-3">${date}</td>
+                        <td class="px-4 py-3 text-right font-medium">${item.prediksi_stok_kg.toFixed(1)}</td>
+                    </tr>
+                `;
+            });
+
+            // Siapkan data untuk grafik
+            const chartLabels = data.map(item => new Date(item.tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }));
+            const chartValues = data.map(item => item.prediksi_stok_kg);
+
+            // Render seluruh kontainer hasil
+            hasilContainer.innerHTML = `
+                <h5 class="card-title mb-4">Hasil Peramalan untuk ${days} Hari ke Depan</h5>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-lightgray"><tr>
+                                <th class="px-4 py-3 font-semibold text-sm">Tanggal</th>
+                                <th class="px-4 py-3 font-semibold text-sm text-right">Prediksi Kebutuhan (kg)</th>
+                            </tr></thead>
+                            <tbody>${tableRows}</tbody>
+                        </table>
+                    </div>
+                    <div class="h-80"><canvas id="grafikHasil"></canvas></div>
+                </div>
+            `;
+            
+            // Render grafik
+            renderGrafik(chartLabels, chartValues);
+        }
+
+        function renderGrafik(labels, values) {
+            const ctx = document.getElementById('grafikHasil');
+            if(ctx) {
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Prediksi Kebutuhan (kg)',
+                            data: values,
+                            backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--color-lightprimary').trim(),
+                            borderColor: getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim(),
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: { y: { beginAtZero: true } },
+                        plugins: { legend: { display: false } }
+                    }
+                });
+            }
+        }
+    </script>
 @endpush

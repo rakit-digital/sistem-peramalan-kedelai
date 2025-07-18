@@ -19,19 +19,18 @@ class SoybeanStockController extends Controller
     {
         // Ambil data dari yang terbaru dengan paginasi
         $stocks = SoybeanStock::with('user')->latest('date')->paginate(15);
-        
-        // Kalkulasi stok awal untuk setiap baris di tabel agar lebih akurat, terutama di halaman > 1
-        $stocks->getCollection()->transform(function ($stock, $key) use ($stocks) {
-            $previousStockOnPage = $stocks->get($key + 1);
 
-            if ($previousStockOnPage) {
-                // Jika ada data sebelumnya di halaman ini, gunakan stok akhirnya
-                $stock->opening_stock = $previousStockOnPage->closing_stock_kg;
-            } else {
-                // Jika ini item pertama di halaman, cari di database
-                $previousStockInDB = SoybeanStock::where('date', '<', $stock->date)->orderBy('date', 'desc')->first();
-                $stock->opening_stock = $previousStockInDB ? $previousStockInDB->closing_stock_kg : 0;
-            }
+        // Ambil semua tanggal yang ada di halaman ini
+        $datesOnPage = $stocks->pluck('date');
+
+        // Ambil stok akhir dari H-1 untuk setiap tanggal dalam SATU KALI query
+        $previousDayStocks = SoybeanStock::whereIn(DB::raw('DATE_ADD(date, INTERVAL 1 DAY)'), $datesOnPage)
+            ->pluck('closing_stock_kg', 'date');
+
+        // Kalkulasi stok awal untuk setiap baris
+        $stocks->getCollection()->transform(function ($stock) use ($previousDayStocks) {
+            $previousDate = $stock->date->subDay()->toDateString();
+            $stock->opening_stock = $previousDayStocks->get($previousDate, 0); // Default 0 jika tidak ditemukan
             return $stock;
         });
 
@@ -155,10 +154,10 @@ class SoybeanStockController extends Controller
         $stocksToUpdate = SoybeanStock::where('date', '>', $date)->orderBy('date', 'asc')->get();
         $previousDayStock = SoybeanStock::where('date', '<=', $date)->orderBy('date', 'desc')->first();
         $currentStock = $previousDayStock ? $previousDayStock->closing_stock_kg : 0;
-        
+
         foreach ($stocksToUpdate as $stock) {
             $closingStock = $currentStock + $stock->purchase_kg - $stock->usage_kg;
-            
+
             // Hanya update jika nilainya berubah untuk efisiensi
             if ($stock->closing_stock_kg != $closingStock) {
                 $stock->closing_stock_kg = $closingStock;

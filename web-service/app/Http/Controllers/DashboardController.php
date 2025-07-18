@@ -41,7 +41,7 @@ class DashboardController extends Controller
         
         for ($i = 6; $i >= 0; $i--) {
             $date = today()->subDays($i);
-            $labels[] = $date->isoFormat('dddd'); // Format nama hari (misal: Senin)
+            $labels[] = $date->isoFormat('dddd, D MMM'); // Format hari dan tanggal (misal: Senin, 15 Jan)
 
             // Ambil data penggunaan aktual
             $actual = SoybeanStock::whereDate('date', $date)->value('usage_kg');

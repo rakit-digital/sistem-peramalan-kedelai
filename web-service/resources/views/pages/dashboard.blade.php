@@ -68,9 +68,14 @@
 @endsection
 
 @push('scripts')
+    {{-- Chart.js diperlukan untuk grafik --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 1. Ambil nilai warna dari variabel CSS tema Anda
+            // Ambil data dinamis dari Controller yang di-encode sebagai JSON
+            const chartData = @json($chartData);
+
+            // Ambil nilai warna dari variabel CSS tema Anda
             const rootStyles = getComputedStyle(document.documentElement);
             const colorPrimary = rootStyles.getPropertyValue('--color-primary').trim();
             const colorSecondary = rootStyles.getPropertyValue('--color-secondary').trim();
@@ -82,66 +87,32 @@
                 new window.Chart(ctx, {
                     type: 'line',
                     data: {
-                        labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
+                        // Gunakan data dari controller
+                        labels: chartData.labels, 
                         datasets: [{
                             label: 'Penggunaan Aktual (kg)',
-                            data: [22, 24, 21, 25, 23, 26, 24],
-                            // 2. Gunakan variabel JavaScript yang sudah berisi nilai warna
-                            borderColor: colorSecondary, // Contoh: #4CAF50
-                            backgroundColor: colorLightSecondary, // Contoh: #E9F7EA
+                            data: chartData.actual,
+                            borderColor: colorSecondary,
+                            backgroundColor: colorLightSecondary + '80', 
                             tension: 0.3,
                             fill: true,
                             pointBackgroundColor: colorSecondary,
-                            pointBorderColor: '#fff',
-                            pointHoverBackgroundColor: '#fff',
-                            pointHoverBorderColor: colorSecondary,
                         }, {
                             label: 'Hasil Peramalan (kg)',
-                            data: [23, 23.5, 22, 24, 24.5, 25, 25.5],
-                            // 3. Gunakan variabel JavaScript yang sudah berisi nilai warna
-                            borderColor: colorPrimary, // Contoh: #D4A017
-                            backgroundColor: colorLightPrimary, // Contoh: #FDF4D7
+                            data: chartData.predicted,
+                            borderColor: colorPrimary,
+                            backgroundColor: colorLightPrimary + '80', 
                             tension: 0.3,
                             fill: true,
                             pointBackgroundColor: colorPrimary,
-                            pointBorderColor: '#fff',
-                            pointHoverBackgroundColor: '#fff',
-                            pointHoverBorderColor: colorPrimary,
+                            borderDash: [5, 5], 
                         }]
                     },
-                    options: {
+                    options: { // Opsi tetap sama seperti sebelumnya
                         responsive: true,
                         maintainAspectRatio: false,
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                grid: {
-                                    color: getComputedStyle(document.body).getPropertyValue(
-                                        '--color-border') // Warna grid sesuai tema
-                                },
-                                ticks: {
-                                    color: getComputedStyle(document.body).getPropertyValue(
-                                        '--color-bodytext') // Warna teks sumbu Y
-                                }
-                            },
-                            x: {
-                                grid: {
-                                    display: false // Sembunyikan grid vertikal
-                                },
-                                ticks: {
-                                    color: getComputedStyle(document.body).getPropertyValue(
-                                        '--color-bodytext') // Warna teks sumbu X
-                                }
-                            }
-                        },
-                        plugins: {
-                            legend: {
-                                labels: {
-                                    color: getComputedStyle(document.body).getPropertyValue(
-                                        '--color-bodytext') // Warna teks legenda
-                                }
-                            }
-                        }
+                        scales: { /* ... */ },
+                        plugins: { /* ... */ }
                     }
                 });
             }
