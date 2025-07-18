@@ -22,7 +22,7 @@ WORKDIR /app
 
 # Cache Composer deps (without scripts)
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --no-interaction --optimize-autoloader --no-scripts
+RUN composer install --no-interaction --optimize-autoloader --no-scripts
 
 # Copy full Laravel project
 COPY . .
