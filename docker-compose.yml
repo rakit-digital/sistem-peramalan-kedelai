@@ -4,7 +4,7 @@ services:
     container_name: tahumelati-app
     restart: unless-stopped
     ports:
-      - "11300:80"
+      - "11100:80"
     environment:
       - SERVER_NAME=:80 # disable https
     volumes:
@@ -18,7 +18,7 @@ services:
   #   container_name: tahumelati-predictor
   #   restart: unless-stopped
   #   ports:
-  #     - "11301:5000"
+  #     - "11101:5000"
   #   volumes:
   #     - ./prediction-service:/app
 
@@ -39,7 +39,7 @@ services:
     container_name: tahumelati-phpmyadmin
     restart: unless-stopped
     ports:
-      - "11302:80"
+      - "11102:80"
     environment:
       - PMA_HOST=mysql
       - PMA_PORT=3306
