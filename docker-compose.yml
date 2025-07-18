@@ -1,0 +1,54 @@
+services:
+  app:
+    build: web-service
+    container_name: tahumelati-app
+    restart: unless-stopped
+    ports:
+      - "11300:80"
+    environment:
+      - SERVER_NAME=:80 # disable https
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - mysql
+
+  # predictor:
+  #   build: prediction-service
+  #   container_name: tahumelati-predictor
+  #   restart: unless-stopped
+  #   ports:
+  #     - "11301:5000"
+  #   volumes:
+  #     - ./prediction-service:/app
+
+  mysql:
+      image: mysql:8
+      container_name: tahumelati-mysql
+      restart: unless-stopped
+      environment:
+        - MYSQL_DATABASE=rd011-peramalan-kedelai
+        - MYSQL_USER=rd011-peramalan-kedelai
+        - MYSQL_PASSWORD=password
+        - MYSQL_ROOT_PASSWORD=rootpassword
+      volumes:
+        - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: tahumelati-phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "11302:80"
+    environment:
+      - PMA_HOST=mysql
+      - PMA_PORT=3306
+      - UPLOAD_LIMIT=64M
+    depends_on:
+      - mysql
+
+
+volumes:
+  caddy_data:
+  caddy_config:
+  mysql_data:
