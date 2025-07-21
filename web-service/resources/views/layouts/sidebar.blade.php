@@ -35,7 +35,7 @@
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link dark-sidebar-link {{ request()->routeIs('peramalan') ? 'activemenu' : '' }}" href="{{ route('peramalan') }}">
-                                <i class="ti ti-report-analytics text-xl"></i><span class="hide-menu">Peramalan Penggunaan Kedelai</span>
+                                <i class="ti ti-report-analytics text-xl"></i><span class="hide-menu">Peramalan Kedelai</span>
                             </a>
                         </li>
 
