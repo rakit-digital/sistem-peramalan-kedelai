@@ -5,7 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SoybeanStockController;
 use App\Http\Controllers\ForecastController;
 use App\Http\Controllers\ReportController;
-use App\Http\Controllers\ProfileController; // Ganti dengan controller Anda jika berbeda
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\LoginController;
 
 /*
@@ -15,14 +15,13 @@ use App\Http\Controllers\Auth\LoginController;
 */
 
 Route::view('/', 'pages.landing.index')->name('landing.page');
+
 // --- RUTE UNTUK AUTENTIKASI ---
-// Rute untuk pengguna yang belum login (Guest)
 Route::middleware('guest')->group(function () {
     Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('login', [LoginController::class, 'login']);
 });
 
-// Rute untuk logout (harus sudah login)
 Route::post('logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::middleware('auth')->group(function () {
@@ -36,6 +35,7 @@ Route::middleware('auth')->group(function () {
     // Peramalan
     Route::get('/peramalan', [ForecastController::class, 'index'])->name('peramalan');
     Route::post('/peramalan/generate', [ForecastController::class, 'generate'])->name('peramalan.generate');
+    Route::post('/peramalan/save', [ForecastController::class, 'save'])->name('peramalan.save'); // <-- ADD THIS LINE
 
     // Laporan
     Route::get('/laporan', [ReportController::class, 'index'])->name('laporan');

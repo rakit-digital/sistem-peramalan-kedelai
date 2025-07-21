@@ -6,8 +6,9 @@ use App\Models\SoybeanStock;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Carbon; // <-- Pastikan Carbon di-import
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Jobs\TriggerModelRetraining;
 
 class SoybeanStockController extends Controller
 {
@@ -79,14 +80,17 @@ class SoybeanStockController extends Controller
             $this->recalculateStockFrom($request->date);
         });
 
-        return redirect()->route('data.kedelai.index')->with('status', 'Data harian berhasil ditambahkan.');
+        // Dispatch the job to the queue
+        TriggerModelRetraining::dispatch();
+
+        return redirect()->route('data.kedelai.index')->with('status', 'Data harian berhasil ditambahkan. Model akan di-train ulang di latar belakang.');
     }
 
     /**
      * Menampilkan form untuk mengedit data.
      * Halaman: edit.blade.php
      */
-    public function edit(SoybeanStock $data_kedelai) // Menggunakan Route Model Binding
+    public function edit(SoybeanStock $data_kedelai)
     {
         $previousDayStock = SoybeanStock::where('date', '<', $data_kedelai->date)->orderBy('date', 'desc')->first();
         $openingStock = $previousDayStock ? $previousDayStock->closing_stock_kg : 0;
@@ -113,7 +117,7 @@ class SoybeanStockController extends Controller
             $originalDate = $data_kedelai->date;
 
             $data_kedelai->update([
-                'date' => $request->date, // Mengizinkan update tanggal
+                'date' => $request->date,
                 'purchase_kg' => $request->purchase_kg,
                 'usage_kg' => $request->usage_kg,
                 'notes' => $request->notes,
@@ -123,8 +127,11 @@ class SoybeanStockController extends Controller
             $recalculationStartDate = min($originalDate, $request->date);
             $this->recalculateStockFrom(Carbon::parse($recalculationStartDate)->subDay()->toDateString());
         });
+        
+        // Dispatch the job to the queue
+        TriggerModelRetraining::dispatch();
 
-        return redirect()->route('data.kedelai.index')->with('status', 'Data berhasil diperbarui.');
+        return redirect()->route('data.kedelai.index')->with('status', 'Data berhasil diperbarui. Model akan di-train ulang di latar belakang.');
     }
 
     /**
@@ -139,11 +146,13 @@ class SoybeanStockController extends Controller
         DB::transaction(function () use ($data_kedelai) {
             $dateBefore = Carbon::parse($data_kedelai->date)->subDay()->toDateString();
             $data_kedelai->delete();
-            // Hitung ulang semua stok setelah data yang dihapus
             $this->recalculateStockFrom($dateBefore);
         });
+        
+        // Dispatch the job to the queue
+        TriggerModelRetraining::dispatch();
 
-        return redirect()->route('data.kedelai.index')->with('status', 'Data berhasil dihapus.');
+        return redirect()->route('data.kedelai.index')->with('status', 'Data berhasil dihapus. Model akan di-train ulang di latar belakang.');
     }
 
     /**
@@ -158,7 +167,6 @@ class SoybeanStockController extends Controller
         foreach ($stocksToUpdate as $stock) {
             $closingStock = $currentStock + $stock->purchase_kg - $stock->usage_kg;
 
-            // Hanya update jika nilainya berubah untuk efisiensi
             if ($stock->closing_stock_kg != $closingStock) {
                 $stock->closing_stock_kg = $closingStock;
                 $stock->save(['timestamps' => false]);

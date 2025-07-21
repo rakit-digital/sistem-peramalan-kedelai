@@ -13,14 +13,33 @@ services:
     depends_on:
       - mysql
 
-  # predictor:
-  #   build: prediction-service
-  #   container_name: tahumelati-predictor
-  #   restart: unless-stopped
-  #   ports:
-  #     - "11101:5000"
-  #   volumes:
-  #     - ./prediction-service:/app
+  predictor:
+    build: ./prediction-service
+    container_name: tahumelati-predictor
+    restart: unless-stopped
+    volumes:
+      - ./prediction-service:/app
+    environment:
+      - DB_HOST=mysql
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "11101:5000"
+    depends_on:
+      - mysql
+
+  queue:
+    build: web-service
+    container_name: tahumelati-queue
+    restart: unless-stopped
+    command: php artisan queue:work --sleep=3 --tries=3 --timeout=90
+    depends_on:
+      - app
+      - mysql
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
 
   mysql:
       image: mysql:8

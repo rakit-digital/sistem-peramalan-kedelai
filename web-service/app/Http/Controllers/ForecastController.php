@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Forecast; // <-- ADD THIS
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Client\ConnectionException;
 use Exception;
 
 class ForecastController extends Controller
 {
-    // Definisikan URL API Python di satu tempat agar mudah diubah
-    private const PYTHON_API_URL = 'http://127.0.0.1:5000/forecast';
-
     /**
      * Menampilkan halaman utama peramalan.
      */
@@ -26,36 +25,81 @@ class ForecastController extends Controller
     {
         // 1. Validasi input dari frontend
         $validated = $request->validate([
-            'days' => 'required|integer|in:7,14,30' // Pastikan hanya nilai ini yang diterima
+            'days' => 'required|integer|in:7,14,30'
         ]);
 
         $daysToForecast = $validated['days'];
+        $flaskApiUrl = config('tahumelati.flask_api_url') . '/forecast';
 
         try {
-            // 2. Kirim request ke API Python menggunakan HTTP Client Laravel
-            // Tambahkan timeout untuk mencegah aplikasi Laravel menunggu terlalu lama
-            $response = Http::timeout(30)->get(self::PYTHON_API_URL, [
+            // 2. Kirim request ke API Python
+            $response = Http::timeout(30)->get($flaskApiUrl, [
                 'days' => $daysToForecast,
             ]);
 
-            // 3. Periksa apakah request ke API Python berhasil
             if (!$response->successful()) {
-                // Jika API Python mengembalikan error (misal: status 500)
-                return response()->json([
-                    'error' => 'Gagal terhubung ke layanan peramalan. Status: ' . $response->status()
-                ], 502); // 502 Bad Gateway
+                $errorData = $response->json();
+                $errorMessage = $errorData['error'] ?? 'Terjadi kesalahan pada layanan peramalan.';
+                return response()->json(['error' => $errorMessage], $response->status());
             }
+            
+            // Format the key names to match what the frontend expects, if necessary
+            $forecasts = array_map(function($item) {
+                return [
+                    'tanggal' => $item['tanggal'], // Already correct from Python
+                    'prediksi_stok_kg' => $item['prediksi_stok_kg'] // Already correct
+                ];
+            }, $response->json());
 
-            // 4. Jika berhasil, kirimkan kembali data JSON dari Python ke frontend
-            return response()->json($response->json());
 
-        } catch (Exception $e) {
-            // 5. Tangani jika API Python tidak berjalan atau terjadi error koneksi
-            report($e); // Laporkan error ke log Laravel
+            return response()->json($forecasts);
 
+        } catch (ConnectionException $e) {
+            report($e); 
             return response()->json([
-                'error' => 'Tidak dapat terhubung ke layanan peramalan. Pastikan layanan sudah berjalan.'
-            ], 503); // 503 Service Unavailable
+                'error' => 'Tidak dapat terhubung ke layanan peramalan. Pastikan layanan Python sudah berjalan.'
+            ], 503);
+        } catch (Exception $e) {
+            report($e);
+            return response()->json([
+                'error' => 'Terjadi kesalahan tak terduga saat memproses peramalan.'
+            ], 500);
         }
+    }
+
+    /**
+     * Saves or updates forecast results in the database.
+     */
+    public function save(Request $request)
+    {
+        // 1. Validate the incoming array of forecasts
+        $validated = $request->validate([
+            'forecasts' => 'required|array',
+            'forecasts.*.tanggal' => 'required|date_format:Y-m-d',
+            'forecasts.*.prediksi_stok_kg' => 'required|numeric|min:0',
+        ]);
+
+        // 2. Prepare the data for the upsert operation
+        $upsertData = [];
+        foreach ($validated['forecasts'] as $forecast) {
+            $upsertData[] = [
+                'forecast_date' => $forecast['tanggal'],
+                'predicted_usage_kg' => $forecast['prediksi_stok_kg'],
+                'generated_at' => now(),
+                'source' => 'manual_forecast_v1', // A source to identify manually saved forecasts
+                'created_at' => now(), // Manually set timestamps for upsert
+                'updated_at' => now(),
+            ];
+        }
+
+        // 3. Perform the upsert operation
+        Forecast::upsert(
+            $upsertData,
+            ['forecast_date'], // The unique column to check for existence
+            ['predicted_usage_kg', 'generated_at', 'source', 'updated_at'] // Columns to update if the record exists
+        );
+
+        // 4. Return a success response
+        return response()->json(['message' => 'Hasil peramalan berhasil disimpan ke database.']);
     }
 }

@@ -21,7 +21,7 @@ class SoybeanStockSeeder extends Seeder
 
         // Tentukan kondisi awal
         $currentClosingStock = 500.00; // Stok awal 90 hari yang lalu
-        $daysOfData = 10; // Jumlah hari data historis yang ingin dibuat
+        $daysOfData = 90; // Jumlah hari data historis yang ingin dibuat
 
         // Loop untuk membuat data dari 90 hari yang lalu hingga kemarin
         for ($i = $daysOfData; $i >= 1; $i--) {
