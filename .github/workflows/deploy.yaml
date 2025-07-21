@@ -1,0 +1,38 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: deploy to testing
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code (for getting repo name)
+        uses: actions/checkout@v4
+
+      - name: Deploy via Cloudflared SSH
+        uses: and-fm/cloudflared-ssh-action@v3
+        with:
+          host: rakta.rakit.digital
+          username: server
+          private_key_filename: github-actions-key
+          private_key_value: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          commands: |
+            set -e # Exit immediately if a command fails.
+
+            echo "Navigating to project directory..."
+            cd /home/server/Projects/external/rd011-tahumelati
+
+            echo "Pulling latest changes from main branch..."
+            git pull origin main
+
+            echo "Building and deploying with Docker Compose..."
+            docker compose up -d --build
+            docker compose exec app php artisan migrate --force
+
+            echo "Deployment successful!"
