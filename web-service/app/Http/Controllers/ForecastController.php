@@ -18,6 +18,24 @@ class ForecastController extends Controller
         return view('pages.peramalan');
     }
 
+    public function showResults()
+    {
+        // Ambil data ramalan untuk masa depan, diurutkan berdasarkan tanggal
+        $forecasts = Forecast::where('forecast_date', '>=', today())
+            ->orderBy('forecast_date', 'asc')
+            ->paginate(14); // Paginate untuk 14 hari per halaman
+
+        // Hitung total prediksi untuk 7 hari ke depan sebagai informasi tambahan
+        $sevenDayTotal = Forecast::whereBetween('forecast_date', [today(), today()->addDays(6)])
+            ->sum('predicted_usage_kg');
+
+        // Hitung total prediksi untuk 30 hari ke depan
+        $thirtyDayTotal = Forecast::whereBetween('forecast_date', [today(), today()->addDays(29)])
+            ->sum('predicted_usage_kg');
+
+        return view('pages.forecast-result.index', compact('forecasts', 'sevenDayTotal', 'thirtyDayTotal'));
+    }
+
     /**
      * Menerima permintaan AJAX untuk men-generate peramalan.
      */
@@ -42,9 +60,9 @@ class ForecastController extends Controller
                 $errorMessage = $errorData['error'] ?? 'Terjadi kesalahan pada layanan peramalan.';
                 return response()->json(['error' => $errorMessage], $response->status());
             }
-            
+
             // Format the key names to match what the frontend expects, if necessary
-            $forecasts = array_map(function($item) {
+            $forecasts = array_map(function ($item) {
                 return [
                     'tanggal' => $item['tanggal'], // Already correct from Python
                     'prediksi_stok_kg' => $item['prediksi_stok_kg'] // Already correct
@@ -53,9 +71,8 @@ class ForecastController extends Controller
 
 
             return response()->json($forecasts);
-
         } catch (ConnectionException $e) {
-            report($e); 
+            report($e);
             return response()->json([
                 'error' => 'Tidak dapat terhubung ke layanan peramalan. Pastikan layanan Python sudah berjalan.'
             ], 503);

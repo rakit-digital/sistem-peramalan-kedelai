@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
 
     // Peramalan
     Route::get('/peramalan', [ForecastController::class, 'index'])->name('peramalan');
+     Route::get('/hasil-peramalan', [ForecastController::class, 'showResults'])->name('peramalan.hasil');
     Route::post('/peramalan/generate', [ForecastController::class, 'generate'])->name('peramalan.generate');
     Route::post('/peramalan/save', [ForecastController::class, 'save'])->name('peramalan.save'); // <-- ADD THIS LINE
 

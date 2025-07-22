@@ -20,7 +20,8 @@
                             <i class="ti ti-dots nav-small-cap-icon"></i><span class="hide-menu">Home</span>
                         </div>
                         <li class="sidebar-item">
-                            <a class="sidebar-link dark-sidebar-link {{ request()->routeIs('dashboard') ? 'activemenu' : '' }}" href="{{ route('dashboard') }}">
+                            <a class="sidebar-link dark-sidebar-link {{ request()->routeIs('dashboard') ? 'activemenu' : '' }}"
+                                href="{{ route('dashboard') }}">
                                 <i class="ti ti-layout-dashboard text-xl"></i><span class="hide-menu">Dashboard</span>
                             </a>
                         </li>
@@ -29,22 +30,34 @@
                             <i class="ti ti-dots nav-small-cap-icon"></i><span class="hide-menu">Manajemen</span>
                         </div>
                         <li class="sidebar-item">
-                            <a class="sidebar-link dark-sidebar-link {{ request()->routeIs('data.kedelai.*') ? 'activemenu' : '' }}" href="{{ route('data.kedelai.index') }}">
+                            <a class="sidebar-link dark-sidebar-link {{ request()->routeIs('data.kedelai.*') ? 'activemenu' : '' }}"
+                                href="{{ route('data.kedelai.index') }}">
                                 <i class="ti ti-bowl text-xl"></i><span class="hide-menu">Data Kedelai</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link dark-sidebar-link {{ request()->routeIs('peramalan') ? 'activemenu' : '' }}" href="{{ route('peramalan') }}">
-                                <i class="ti ti-report-analytics text-xl"></i><span class="hide-menu">Peramalan Kedelai</span>
+                            <a class="sidebar-link dark-sidebar-link {{ request()->routeIs('peramalan') ? 'activemenu' : '' }}"
+                                href="{{ route('peramalan') }}">
+                                <i class="ti ti-report-analytics text-xl"></i><span class="hide-menu">Peramalan
+                                    Kedelai</span>
                             </a>
                         </li>
 
                         <div class="caption mt-8">
-                            <i class="ti ti-dots nav-small-cap-icon"></i><span class="hide-menu">Laporan & Analisis</span>
+                            <i class="ti ti-dots nav-small-cap-icon"></i><span class="hide-menu">Laporan &
+                                Analisis</span>
                         </div>
                         <li class="sidebar-item">
-                            <a class="sidebar-link dark-sidebar-link {{ request()->routeIs('laporan') ? 'activemenu' : '' }}" href="{{ route('laporan') }}">
+                            <a class="sidebar-link dark-sidebar-link {{ request()->routeIs('laporan') ? 'activemenu' : '' }}"
+                                href="{{ route('laporan') }}">
                                 <i class="ti ti-file-report text-xl"></i><span class="hide-menu">Laporan</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link dark-sidebar-link {{ request()->routeIs('peramalan.hasil') ? 'activemenu' : '' }}"
+                                href="{{ route('peramalan.hasil') }}">
+                                <i class="ti ti-table-analytics text-xl"></i><span class="hide-menu">Hasil
+                                    Peramalan</span>
                             </a>
                         </li>
 
@@ -52,7 +65,8 @@
                             <i class="ti ti-dots nav-small-cap-icon"></i><span class="hide-menu">Settings</span>
                         </div>
                         <li class="sidebar-item">
-                            <a class="sidebar-link dark-sidebar-link {{ request()->routeIs('pengaturan') ? 'activemenu' : '' }}" href="{{ route('pengaturan') }}">
+                            <a class="sidebar-link dark-sidebar-link {{ request()->routeIs('pengaturan') ? 'activemenu' : '' }}"
+                                href="{{ route('pengaturan') }}">
                                 <i class="ti ti-settings text-xl"></i><span class="hide-menu">Pengaturan Akun</span>
                             </a>
                         </li>
