@@ -114,7 +114,7 @@
                 </tr>
                  <tr>
                     <th>Tanggal Cetak</th>
-                    <td>: {{ now()->isoFormat('D MMMM Y, HH:mm') }}</td>
+                    <td>: {{ now()->isoFormat('D MMMM Y') }}</td>
                 </tr>
             </table>
         </div>
@@ -130,14 +130,12 @@
             <tbody>
                 @forelse ($results as $index => $result)
                 <tr>
-                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $result->date->isoFormat('dddd, D MMMM Y') }}</td>
                     <td class="text-right">
-                        {{-- Tampilkan nilai berdasarkan jenis laporan --}}
                         @if ($reportType == 'usage')
                             {{ number_format($result->usage_kg, 2) }}
                         @elseif ($reportType == 'stock')
-                            {{-- Untuk laporan stok, tidak ada total, hanya nilai harian --}}
                             {{ number_format($result->closing_stock_kg, 2) }}
                         @elseif ($reportType == 'purchase')
                             {{ number_format($result->purchase_kg, 2) }}
