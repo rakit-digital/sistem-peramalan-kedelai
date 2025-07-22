@@ -19,7 +19,7 @@ class SoybeanStockController extends Controller
     public function index()
     {
         // Ambil data dari yang terbaru dengan paginasi
-        $stocks = SoybeanStock::with('user')->latest('date')->paginate(15);
+        $stocks = SoybeanStock::with('user')->latest('date')->paginate(10);
 
         // Ambil semua tanggal yang ada di halaman ini
         $datesOnPage = $stocks->pluck('date');
