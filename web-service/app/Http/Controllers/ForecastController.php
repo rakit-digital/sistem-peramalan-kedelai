@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Forecast; // <-- ADD THIS
+use App\Models\Forecast;
+use App\Models\SoybeanStock; // <-- Tambahkan model ini
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Pagination\LengthAwarePaginator; // <-- Tambahkan ini untuk paginasi manual
 use Exception;
 
 class ForecastController extends Controller
@@ -18,22 +20,48 @@ class ForecastController extends Controller
         return view('pages.peramalan');
     }
 
-    public function showResults()
+    /**
+     * Menampilkan halaman hasil peramalan yang tersimpan di database.
+     */
+    public function showResults(Request $request)
     {
-        // Ambil data ramalan untuk masa depan, diurutkan berdasarkan tanggal
-        $forecasts = Forecast::where('forecast_date', '>=', today())
-            ->orderBy('forecast_date', 'asc')
-            ->paginate(14); // Paginate untuk 14 hari per halaman
+        $latestDate = SoybeanStock::latest('date')->value('date');
+        // 1. Ambil SEMUA data ramalan masa depan (tidak dipaginasi dulu)
+        $allFutureForecasts = Forecast::where('forecast_date', '>=', $latestDate)
+                                    ->orderBy('forecast_date', 'asc')
+                                    ->get();
 
-        // Hitung total prediksi untuk 7 hari ke depan sebagai informasi tambahan
-        $sevenDayTotal = Forecast::whereBetween('forecast_date', [today(), today()->addDays(6)])
-            ->sum('predicted_usage_kg');
+        // 2. Ambil data penting untuk kalkulasi
+        $latestStock = SoybeanStock::latest('date')->first();
+        $runningStock = $latestStock ? $latestStock->closing_stock_kg : 0;
+        $avgUsage = SoybeanStock::where('date', '>=', now()->subDays(30))->avg('usage_kg') ?: 30; // Default 30kg jika tidak ada data
 
-        // Hitung total prediksi untuk 30 hari ke depan
-        $thirtyDayTotal = Forecast::whereBetween('forecast_date', [today(), today()->addDays(29)])
-            ->sum('predicted_usage_kg');
+        // 3. Lakukan iterasi untuk menghitung estimasi stok
+        $forecastsWithEstimates = $allFutureForecasts->map(function ($forecast) use (&$runningStock) {
+            // Asumsi tidak ada pembelian di masa depan untuk skenario "jika tidak melakukan apa-apa"
+            $runningStock -= $forecast->predicted_usage_kg;
+            $forecast->estimated_closing_stock = $runningStock;
+            return $forecast;
+        });
 
-        return view('pages.forecast-result.index', compact('forecasts', 'sevenDayTotal', 'thirtyDayTotal'));
+        // 4. Buat Paginator secara manual dari koleksi yang sudah dihitung
+        $perPage = 10;
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $currentPageItems = $forecastsWithEstimates->slice(($currentPage - 1) * $perPage, $perPage)->all();
+        $paginatedForecasts = new LengthAwarePaginator($currentPageItems, count($forecastsWithEstimates), $perPage);
+        $paginatedForecasts->setPath($request->url());
+
+        // 5. Hitung total prediksi (bisa dari koleksi sebelum di-map)
+        $sevenDayTotal = $allFutureForecasts->where('forecast_date', '<=', today()->addDays(6))->sum('predicted_usage_kg');
+        $thirtyDayTotal = $allFutureForecasts->where('forecast_date', '<=', today()->addDays(29))->sum('predicted_usage_kg');
+
+        return view('pages.forecast-result.index', [
+            'forecasts' => $paginatedForecasts,
+            'sevenDayTotal' => $sevenDayTotal,
+            'thirtyDayTotal' => $thirtyDayTotal,
+            'latestStock' => $latestStock,
+            'warningThreshold' => $avgUsage * 3, // Stok dianggap 'rendah' jika kurang dari kebutuhan 3 hari
+        ]);
     }
 
     /**
@@ -41,7 +69,7 @@ class ForecastController extends Controller
      */
     public function generate(Request $request)
     {
-        // 1. Validasi input dari frontend
+        // ... (kode ini tidak berubah)
         $validated = $request->validate([
             'days' => 'required|integer|in:7,14,30'
         ]);
@@ -50,7 +78,6 @@ class ForecastController extends Controller
         $flaskApiUrl = config('tahumelati.flask_api_url') . '/forecast';
 
         try {
-            // 2. Kirim request ke API Python
             $response = Http::timeout(30)->get($flaskApiUrl, [
                 'days' => $daysToForecast,
             ]);
@@ -60,19 +87,19 @@ class ForecastController extends Controller
                 $errorMessage = $errorData['error'] ?? 'Terjadi kesalahan pada layanan peramalan.';
                 return response()->json(['error' => $errorMessage], $response->status());
             }
-
-            // Format the key names to match what the frontend expects, if necessary
-            $forecasts = array_map(function ($item) {
+            
+            $forecasts = array_map(function($item) {
                 return [
-                    'tanggal' => $item['tanggal'], // Already correct from Python
-                    'prediksi_stok_kg' => $item['prediksi_stok_kg'] // Already correct
+                    'tanggal' => $item['tanggal'],
+                    'prediksi_stok_kg' => $item['prediksi_stok_kg']
                 ];
             }, $response->json());
 
 
             return response()->json($forecasts);
+
         } catch (ConnectionException $e) {
-            report($e);
+            report($e); 
             return response()->json([
                 'error' => 'Tidak dapat terhubung ke layanan peramalan. Pastikan layanan Python sudah berjalan.'
             ], 503);
@@ -89,34 +116,31 @@ class ForecastController extends Controller
      */
     public function save(Request $request)
     {
-        // 1. Validate the incoming array of forecasts
+        // ... (kode ini tidak berubah)
         $validated = $request->validate([
             'forecasts' => 'required|array',
             'forecasts.*.tanggal' => 'required|date_format:Y-m-d',
             'forecasts.*.prediksi_stok_kg' => 'required|numeric|min:0',
         ]);
 
-        // 2. Prepare the data for the upsert operation
         $upsertData = [];
         foreach ($validated['forecasts'] as $forecast) {
             $upsertData[] = [
                 'forecast_date' => $forecast['tanggal'],
                 'predicted_usage_kg' => $forecast['prediksi_stok_kg'],
                 'generated_at' => now(),
-                'source' => 'manual_forecast_v1', // A source to identify manually saved forecasts
-                'created_at' => now(), // Manually set timestamps for upsert
+                'source' => 'manual_forecast_v1',
+                'created_at' => now(),
                 'updated_at' => now(),
             ];
         }
 
-        // 3. Perform the upsert operation
         Forecast::upsert(
             $upsertData,
-            ['forecast_date'], // The unique column to check for existence
-            ['predicted_usage_kg', 'generated_at', 'source', 'updated_at'] // Columns to update if the record exists
+            ['forecast_date'],
+            ['predicted_usage_kg', 'generated_at', 'source', 'updated_at']
         );
 
-        // 4. Return a success response
         return response()->json(['message' => 'Hasil peramalan berhasil disimpan ke database.']);
     }
 }

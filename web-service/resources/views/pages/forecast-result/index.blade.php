@@ -7,7 +7,7 @@
             <div class="flex items-center grid grid-cols-12 gap-6">
                 <div class="col-span-12">
                     <h4 class="font-semibold text-xl text-dark mb-3">
-                        Hasil Peramalan Kebutuhan Kedelai
+                        Hasil Peramalan & Estimasi Stok
                     </h4>
                     <ol class="flex items-center whitespace-nowrap" aria-label="Breadcrumb">
                         <li class="inline-flex items-center">
@@ -40,7 +40,22 @@
         </div>
     </div>
     
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <!-- Card Stok Terakhir -->
+        <div class="card">
+            <div class="card-body">
+                <div class="flex items-center gap-4">
+                    <div class="size-12 rounded-md bg-lightprimary flex items-center justify-center">
+                        <i class="ti ti-box text-primary text-2xl"></i>
+                    </div>
+                    <div>
+                        <h5 class="card-title">{{ number_format($latestStock->closing_stock_kg ?? 0, 1) }} kg</h5>
+                        <p class="card-subtitle">Stok Terakhir ({{ $latestStock ? $latestStock->date->isoFormat('D MMM') : 'N/A' }})</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Card Prediksi 7 Hari -->
         <div class="card">
             <div class="card-body">
                 <div class="flex items-center gap-4">
@@ -54,6 +69,7 @@
                 </div>
             </div>
         </div>
+        <!-- Card Prediksi 30 Hari -->
         <div class="card">
             <div class="card-body">
                 <div class="flex items-center gap-4">
@@ -69,7 +85,6 @@
         </div>
     </div>
 
-
     <!-- Tabel Hasil Peramalan -->
     <div class="card">
         <div class="card-body">
@@ -79,8 +94,8 @@
                         <tr class="bg-lightgray">
                             <th class="px-4 py-3 font-semibold text-sm">Tanggal Ramalan</th>
                             <th class="px-4 py-3 font-semibold text-sm text-center">Prediksi Penggunaan</th>
+                            <th class="px-4 py-3 font-semibold text-sm text-center">Estimasi Stok Akhir</th>
                             <th class="px-4 py-3 font-semibold text-sm">Waktu Generate</th>
-                            <th class="px-4 py-3 font-semibold text-sm">Sumber Model</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -97,13 +112,24 @@
                                     </div>
                                 </td>
                                 <td class="px-4 py-3 text-center">
-                                    <span class="font-bold text-lg text-primary">{{ number_format($forecast->predicted_usage_kg, 1) }}</span>
+                                    <span class="font-medium text-secondary">-{{ number_format($forecast->predicted_usage_kg, 1) }}</span>
                                     <span class="text-sm">kg</span>
                                 </td>
-                                <td class="px-4 py-3 text-sm text-bodytext">{{ \Carbon\Carbon::parse($forecast->generated_at)->diffForHumans() }}</td>
-                                <td class="px-4 py-3">
-                                    <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-secondary bg-lightsecondary">{{ $forecast->source ?? 'Tidak Diketahui' }}</span>
+                                <td class="px-4 py-3 text-center">
+                                    @php
+                                        $stockValue = $forecast->estimated_closing_stock;
+                                        $stockClass = '';
+                                        if ($stockValue < 0) {
+                                            $stockClass = 'text-error font-bold'; // Merah jika stok minus (harus segera beli)
+                                        } elseif ($stockValue < $warningThreshold) {
+                                            $stockClass = 'text-warning font-semibold'; // Kuning jika stok menipis
+                                        }
+                                    @endphp
+                                    <span class="{{ $stockClass }}">
+                                        {{ number_format($stockValue, 1) }} kg
+                                    </span>
                                 </td>
+                                <td class="px-4 py-3 text-sm text-bodytext">{{ \Carbon\Carbon::parse($forecast->generated_at)->diffForHumans() }}</td>
                             </tr>
                         @empty
                             <tr>
